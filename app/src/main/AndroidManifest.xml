@@ -55,5 +55,9 @@
                   android:configChanges="orientation|smallestScreenSize|screenSize|screenLayout"
                   android:theme="@style/CallActivityTheme">
         </activity>
+        <activity android:name=".MsgActivity"
+                  android:windowSoftInputMode="adjustResize"
+            >
+        </activity>
     </application>
 </manifest>

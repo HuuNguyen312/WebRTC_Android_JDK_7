@@ -31,7 +31,14 @@
             android:inputType="text"/>
 
         <ImageButton
-            android:id="@+id/connect_button"
+            android:id="@+id/text_chat_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="@string/connect_description"
+            android:background="@android:drawable/sym_action_chat" />
+
+        <ImageButton
+            android:id="@+id/video_chat_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:contentDescription="@string/connect_description"
