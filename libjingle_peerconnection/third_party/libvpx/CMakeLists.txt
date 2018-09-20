@@ -6,6 +6,8 @@ include_directories(
     ${WEBRTC_REPO}/third_party/libvpx/source/libvpx
 )
 
+# extracted from `libvpx_srcs_arm64` of third_party/libvpx/libvpx_srcs.gni
+# python extract_src_from_gn.py third_party/libvpx/libvpx_srcs.gni libvpx_srcs_arm64 '    ${WEBRTC_REPO}/'
 set(src_vpx_arm64
     ${WEBRTC_REPO}/third_party/libvpx/source/libvpx/vp8/common/alloccommon.c
     ${WEBRTC_REPO}/third_party/libvpx/source/libvpx/vp8/common/arm/loopfilter_arm.c
@@ -158,7 +160,6 @@ set(src_vpx_arm64
     ${WEBRTC_REPO}/third_party/libvpx/source/libvpx/vp9/encoder/vp9_treewriter.c
     ${WEBRTC_REPO}/third_party/libvpx/source/libvpx/vp9/vp9_cx_iface.c
     ${WEBRTC_REPO}/third_party/libvpx/source/libvpx/vp9/vp9_dx_iface.c
-    ${WEBRTC_REPO}/third_party/libvpx/source/libvpx/vpx/src/svc_encodeframe.c
     ${WEBRTC_REPO}/third_party/libvpx/source/libvpx/vpx/src/vpx_codec.c
     ${WEBRTC_REPO}/third_party/libvpx/source/libvpx/vpx/src/vpx_decoder.c
     ${WEBRTC_REPO}/third_party/libvpx/source/libvpx/vpx/src/vpx_encoder.c

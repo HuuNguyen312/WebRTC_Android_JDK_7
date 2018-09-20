@@ -38,6 +38,8 @@ add_definitions(-DWEBRTC_INTELLIGIBILITY_ENHANCER=0 -DWEBRTC_NS_FIXED)
 
 add_definitions(-DWEBRTC_APM_DEBUG_DUMP=0)
 
+add_definitions(-DHAVE_NETINET_IN_H)
+
 include_directories(
     ${WEBRTC_REPO}
 

@@ -10,3 +10,9 @@
 ## Debug native code in Android Studio
 
 Edit `gradle.properties`, set `compile_native_code=true` and other variables according to your WebRTC checkout location, then enjoy :)
+
+Note:
+
++ use the same version of Android SDK and NDK;
++ recreate `protoc` after updating webrtc repo, build WebRTC with ninja would create it;
++ delete `webrtc_build_dir` after updating webrtc repo;

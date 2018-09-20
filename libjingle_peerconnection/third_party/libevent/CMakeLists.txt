@@ -9,6 +9,7 @@ include_directories(
     ${WEBRTC_REPO}/base/third_party/libevent/android
 )
 
+# infered from base/third_party/libevent/BUILD.gn, the base source set, plus Android source (epoll.c)
 set(src_event
     ${WEBRTC_REPO}/base/third_party/libevent/buffer.c
     ${WEBRTC_REPO}/base/third_party/libevent/evbuffer.c
@@ -23,6 +24,7 @@ set(src_event
     ${WEBRTC_REPO}/base/third_party/libevent/select.c
     ${WEBRTC_REPO}/base/third_party/libevent/signal.c
     ${WEBRTC_REPO}/base/third_party/libevent/strlcpy.c
+
     ${WEBRTC_REPO}/base/third_party/libevent/epoll.c
 )
 
