@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 
-def compileNativeCode = "true" == rootProject.property("compile_native_code")
+def compileNativeCode = "true" == rootProject.findProperty("compile_native_code")
 
 android {
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
