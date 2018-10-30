@@ -385,6 +385,7 @@ public class PeerConnection {
     public IceTransportsType iceTransportsType;
     public List<IceServer> iceServers;
     public BundlePolicy bundlePolicy;
+    @Nullable public RtcCertificatePem certificate;
     public RtcpMuxPolicy rtcpMuxPolicy;
     public TcpCandidatePolicy tcpCandidatePolicy;
     public CandidateNetworkPolicy candidateNetworkPolicy;
@@ -461,6 +462,12 @@ public class PeerConnection {
     // every offer/answer negotiation.This is only intended to be a workaround for crbug.com/835958
     public boolean activeResetSrtpParams;
 
+    /*
+     * Experimental flag that enables a use of media transport. If this is true, the media transport
+     * factory MUST be provided to the PeerConnectionFactory.
+     */
+    public boolean useMediaTransport;
+
     // TODO(deadbeef): Instead of duplicating the defaults here, we should do
     // something to pick up the defaults from C++. The Objective-C equivalent
     // of RTCConfiguration does that.
@@ -500,6 +507,7 @@ public class PeerConnection {
       networkPreference = AdapterType.UNKNOWN;
       sdpSemantics = SdpSemantics.PLAN_B;
       activeResetSrtpParams = false;
+      useMediaTransport = false;
     }
 
     @CalledByNative("RTCConfiguration")
@@ -515,6 +523,12 @@ public class PeerConnection {
     @CalledByNative("RTCConfiguration")
     BundlePolicy getBundlePolicy() {
       return bundlePolicy;
+    }
+
+    @Nullable
+    @CalledByNative("RTCConfiguration")
+    RtcCertificatePem getCertificate() {
+      return certificate;
     }
 
     @CalledByNative("RTCConfiguration")
@@ -692,6 +706,11 @@ public class PeerConnection {
     boolean getActiveResetSrtpParams() {
       return activeResetSrtpParams;
     }
+
+    @CalledByNative("RTCConfiguration")
+    boolean getUseMediaTransport() {
+      return useMediaTransport;
+    }
   };
 
   private final List<MediaStream> localStreams = new ArrayList<>();
@@ -719,6 +738,10 @@ public class PeerConnection {
 
   public SessionDescription getRemoteDescription() {
     return nativeGetRemoteDescription();
+  }
+
+  public RtcCertificatePem getCertificate() {
+    return nativeGetCertificate();
   }
 
   public DataChannel createDataChannel(String label, DataChannel.Init init) {
@@ -1107,6 +1130,7 @@ public class PeerConnection {
   private native long nativeGetNativePeerConnection();
   private native SessionDescription nativeGetLocalDescription();
   private native SessionDescription nativeGetRemoteDescription();
+  private native RtcCertificatePem nativeGetCertificate();
   private native DataChannel nativeCreateDataChannel(String label, DataChannel.Init init);
   private native void nativeCreateOffer(SdpObserver observer, MediaConstraints constraints);
   private native void nativeCreateAnswer(SdpObserver observer, MediaConstraints constraints);

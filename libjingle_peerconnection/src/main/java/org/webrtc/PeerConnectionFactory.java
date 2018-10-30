@@ -122,8 +122,26 @@ public class PeerConnectionFactory {
     public int networkIgnoreMask;
     public boolean disableEncryption;
     public boolean disableNetworkMonitor;
+
+    /**
+     * If set to true, the (potentially insecure) crypto cipher SRTP_AES128_CM_SHA1_32
+     * will be included in the list of supported ciphers during negotiation. It will only
+     * be used if both peers support it and no other ciphers get preferred.
+     */
     public boolean enableAes128Sha1_32CryptoCipher;
+
+    /**
+     * Enable GCM crypto suites from RFC 7714 for SRTP. GCM will only be used if both sides enable
+     * it.
+     */
     public boolean enableGcmCryptoSuites;
+
+    /**
+     * If set all RtpSenders must have an FrameEncryptor attached to them before they are allowed to
+     * send packets. All RtpReceivers must have a FrameDecryptor attached to them before they are
+     * able to receive packets.
+     */
+    public boolean requireFrameEncryption;
 
     @CalledByNative("Options")
     int getNetworkIgnoreMask() {
@@ -149,6 +167,11 @@ public class PeerConnectionFactory {
     boolean getEnableGcmCryptoSuites() {
       return enableGcmCryptoSuites;
     }
+
+    @CalledByNative("Options")
+    boolean getRequireFrameEncryption() {
+      return requireFrameEncryption;
+    }
   }
 
   public static class Builder {
@@ -158,6 +181,7 @@ public class PeerConnectionFactory {
     private @Nullable VideoDecoderFactory decoderFactory;
     private @Nullable AudioProcessingFactory audioProcessingFactory;
     private @Nullable FecControllerFactoryFactoryInterface fecControllerFactoryFactory;
+    private @Nullable MediaTransportFactoryFactory mediaTransportFactoryFactory;
 
     private Builder() {}
 
@@ -196,9 +220,16 @@ public class PeerConnectionFactory {
       return this;
     }
 
+    /** Sets a MediaTransportFactoryFactory for a PeerConnectionFactory. */
+    public Builder setMediaTransportFactoryFactory(
+        MediaTransportFactoryFactory mediaTransportFactoryFactory) {
+      this.mediaTransportFactoryFactory = mediaTransportFactoryFactory;
+      return this;
+    }
+
     public PeerConnectionFactory createPeerConnectionFactory() {
       return new PeerConnectionFactory(options, audioDeviceModule, encoderFactory, decoderFactory,
-          audioProcessingFactory, fecControllerFactoryFactory);
+          audioProcessingFactory, fecControllerFactoryFactory, mediaTransportFactoryFactory);
     }
   }
 
@@ -279,13 +310,17 @@ public class PeerConnectionFactory {
   private PeerConnectionFactory(Options options, @Nullable AudioDeviceModule audioDeviceModule,
       @Nullable VideoEncoderFactory encoderFactory, @Nullable VideoDecoderFactory decoderFactory,
       @Nullable AudioProcessingFactory audioProcessingFactory,
-      @Nullable FecControllerFactoryFactoryInterface fecControllerFactoryFactory) {
+      @Nullable FecControllerFactoryFactoryInterface fecControllerFactoryFactory,
+      @Nullable MediaTransportFactoryFactory mediaTransportFactoryFactory) {
     checkInitializeHasBeenCalled();
     nativeFactory = nativeCreatePeerConnectionFactory(ContextUtils.getApplicationContext(), options,
         audioDeviceModule == null ? 0 : audioDeviceModule.getNativeAudioDeviceModulePointer(),
         encoderFactory, decoderFactory,
         audioProcessingFactory == null ? 0 : audioProcessingFactory.createNative(),
-        fecControllerFactoryFactory == null ? 0 : fecControllerFactoryFactory.createNative());
+        fecControllerFactoryFactory == null ? 0 : fecControllerFactoryFactory.createNative(),
+        mediaTransportFactoryFactory == null
+            ? 0
+            : mediaTransportFactoryFactory.createNativeMediaTransportFactory());
     if (nativeFactory == 0) {
       throw new RuntimeException("Failed to initialize PeerConnectionFactory!");
     }
@@ -489,7 +524,7 @@ public class PeerConnectionFactory {
   private static native long nativeCreatePeerConnectionFactory(Context context, Options options,
       long nativeAudioDeviceModule, VideoEncoderFactory encoderFactory,
       VideoDecoderFactory decoderFactory, long nativeAudioProcessor,
-      long nativeFecControllerFactory);
+      long nativeFecControllerFactory, long mediaTransportFactory);
   private static native long nativeCreatePeerConnection(long factory,
       PeerConnection.RTCConfiguration rtcConfig, MediaConstraints constraints, long nativeObserver,
       SSLCertificateVerifier sslCertificateVerifier);
