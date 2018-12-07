@@ -251,7 +251,7 @@ public class MediaCodecVideoDecoder {
       Logging.w(TAG, "Egl context already set.");
       eglBase.release();
     }
-    eglBase = EglBase.create(eglContext);
+    eglBase = EglBaseHelper.create(eglContext);
   }
 
   /** Dispose the EGL context used by HW decoding. */

@@ -210,16 +210,19 @@ public class EglRenderer implements VideoSink {
       // Create EGL context on the newly created render thread. It should be possibly to create the
       // context on this thread and make it current on the render thread, but this causes failure on
       // some Marvel based JB devices. https://bugs.chromium.org/p/webrtc/issues/detail?id=6350.
-      ThreadUtils.invokeAtFrontUninterruptibly(renderThreadHandler, () -> {
-        // If sharedContext is null, then texture frames are disabled. This is typically for old
-        // devices that might not be fully spec compliant, so force EGL 1.0 since EGL 1.4 has
-        // caused trouble on some weird devices.
-        if (sharedContext == null) {
-          logD("EglBase10.create context");
-          eglBase = EglBase.createEgl10(configAttributes);
-        } else {
-          logD("EglBase.create shared context");
-          eglBase = EglBase.create(sharedContext, configAttributes);
+      ThreadUtils.invokeAtFrontUninterruptibly(renderThreadHandler, new Runnable() {
+        @Override
+        public void run() {
+          // If sharedContext is null, then texture frames are disabled. This is typically for old
+          // devices that might not be fully spec compliant, so force EGL 1.0 since EGL 1.4 has
+          // caused trouble on some weird devices.
+          if (sharedContext == null) {
+            logD("EglBase10.create context");
+            eglBase = EglBaseHelper.createEgl10(configAttributes);
+          } else {
+            logD("EglBase.create shared context");
+            eglBase = EglBaseHelper.create(sharedContext, configAttributes);
+          }
         }
       });
       renderThreadHandler.post(eglSurfaceCreationRunnable);
@@ -259,21 +262,24 @@ public class EglRenderer implements VideoSink {
       }
       renderThreadHandler.removeCallbacks(logStatisticsRunnable);
       // Release EGL and GL resources on render thread.
-      renderThreadHandler.postAtFrontOfQueue(() -> {
-        if (drawer != null) {
-          drawer.release();
-          drawer = null;
+      renderThreadHandler.postAtFrontOfQueue(new Runnable() {
+        @Override
+        public void run() {
+          if (drawer != null) {
+            drawer.release();
+            drawer = null;
+          }
+          frameDrawer.release();
+          bitmapTextureFramebuffer.release();
+          if (eglBase != null) {
+            logD("eglBase detach and release.");
+            eglBase.detachCurrent();
+            eglBase.release();
+            eglBase = null;
+          }
+          frameListeners.clear();
+          eglCleanupBarrier.countDown();
         }
-        frameDrawer.release();
-        bitmapTextureFramebuffer.release();
-        if (eglBase != null) {
-          logD("eglBase detach and release.");
-          eglBase.detachCurrent();
-          eglBase.release();
-          eglBase = null;
-        }
-        frameListeners.clear();
-        eglCleanupBarrier.countDown();
       });
       final Looper renderLooper = renderThreadHandler.getLooper();
       // TODO(magjed): Replace this post() with renderLooper.quitSafely() when API support >= 18.

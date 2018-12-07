@@ -101,7 +101,7 @@ public class SurfaceTextureHelper {
     }
     this.handler = handler;
 
-    eglBase = EglBase.create(sharedContext, EglBase.CONFIG_PIXEL_BUFFER);
+    eglBase = EglBaseHelper.create(sharedContext, EglBase.CONFIG_PIXEL_BUFFER);
     try {
       // Both these statements have been observed to fail on rare occasions, see BUG=webrtc:5682.
       eglBase.createDummyPbufferSurface();

@@ -70,7 +70,7 @@ public class VideoFileRenderer implements VideoSink {
     ThreadUtils.invokeAtFrontUninterruptibly(renderThreadHandler, new Runnable() {
       @Override
       public void run() {
-        eglBase = EglBase.create(sharedContext, EglBase.CONFIG_PIXEL_BUFFER);
+        eglBase = EglBaseHelper.create(sharedContext, EglBase.CONFIG_PIXEL_BUFFER);
         eglBase.createDummyPbufferSurface();
         eglBase.makeCurrent();
         yuvConverter = new YuvConverter();
