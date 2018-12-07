@@ -34,12 +34,12 @@ class WebRtcAudioManager {
 
   private static final int DEFAULT_FRAME_PER_BUFFER = 256;
 
-  @CalledByNative
+  @CalledByNative("")
   static AudioManager getAudioManager(Context context) {
     return (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
   }
 
-  @CalledByNative
+  @CalledByNative("")
   static int getOutputBufferSize(
       Context context, AudioManager audioManager, int sampleRate, int numberOfOutputChannels) {
     return isLowLatencyOutputSupported(context)
@@ -47,7 +47,7 @@ class WebRtcAudioManager {
         : getMinOutputFrameSize(sampleRate, numberOfOutputChannels);
   }
 
-  @CalledByNative
+  @CalledByNative("")
   static int getInputBufferSize(
       Context context, AudioManager audioManager, int sampleRate, int numberOfInputChannels) {
     return isLowLatencyInputSupported(context)
@@ -70,7 +70,7 @@ class WebRtcAudioManager {
   /**
    * Returns the native input/output sample rate for this device's output stream.
    */
-  @CalledByNative
+  @CalledByNative("")
   static int getSampleRate(AudioManager audioManager) {
     // Override this if we're running on an old emulator image which only
     // supports 8 kHz and doesn't support PROPERTY_OUTPUT_SAMPLE_RATE.

@@ -182,7 +182,7 @@ public interface VideoEncoder {
    * the Java interface methods declared below should thus throw an
    * UnsupportedOperationException.
    */
-  @CalledByNative
+  @CalledByNative("")
   default long createNativeVideoEncoder() {
     return 0;
   }
@@ -190,7 +190,7 @@ public interface VideoEncoder {
   /**
    * Returns true if the encoder is backed by hardware.
    */
-  @CalledByNative
+  @CalledByNative("")
   default boolean isHardwareEncoder() {
     return true;
   }
@@ -198,17 +198,17 @@ public interface VideoEncoder {
   /**
    * Initializes the encoding process. Call before any calls to encode.
    */
-  @CalledByNative VideoCodecStatus initEncode(Settings settings, Callback encodeCallback);
+  @CalledByNative("") VideoCodecStatus initEncode(Settings settings, Callback encodeCallback);
 
   /**
    * Releases the encoder. No more calls to encode will be made after this call.
    */
-  @CalledByNative VideoCodecStatus release();
+  @CalledByNative("") VideoCodecStatus release();
 
   /**
    * Requests the encoder to encode a frame.
    */
-  @CalledByNative VideoCodecStatus encode(VideoFrame frame, EncodeInfo info);
+  @CalledByNative("") VideoCodecStatus encode(VideoFrame frame, EncodeInfo info);
 
   /**
    * Informs the encoder of the packet loss and the round-trip time of the network.
@@ -216,17 +216,17 @@ public interface VideoEncoder {
    * @param packetLoss How many packets are lost on average per 255 packets.
    * @param roundTripTimeMs Round-trip time of the network in milliseconds.
    */
-  @CalledByNative VideoCodecStatus setChannelParameters(short packetLoss, long roundTripTimeMs);
+  @CalledByNative("") VideoCodecStatus setChannelParameters(short packetLoss, long roundTripTimeMs);
 
   /** Sets the bitrate allocation and the target framerate for the encoder. */
-  @CalledByNative VideoCodecStatus setRateAllocation(BitrateAllocation allocation, int framerate);
+  @CalledByNative("") VideoCodecStatus setRateAllocation(BitrateAllocation allocation, int framerate);
 
   /** Any encoder that wants to use WebRTC provided quality scaler must implement this method. */
-  @CalledByNative ScalingSettings getScalingSettings();
+  @CalledByNative("") ScalingSettings getScalingSettings();
 
   /**
    * Should return a descriptive name for the implementation. Gets called once and cached. May be
    * called from arbitrary thread.
    */
-  @CalledByNative String getImplementationName();
+  @CalledByNative("") String getImplementationName();
 }

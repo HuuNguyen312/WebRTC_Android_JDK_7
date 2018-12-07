@@ -19,7 +19,7 @@ import java.util.Map;
  */
 class JniHelper {
   // TODO(bugs.webrtc.org/8632): Remove.
-  @CalledByNative
+  @CalledByNative("")
   static byte[] getStringBytes(String s) {
     try {
       return s.getBytes("ISO-8859-1");
@@ -29,19 +29,19 @@ class JniHelper {
   }
 
   // TODO(bugs.webrtc.org/8632): Remove.
-  @CalledByNative
+  @CalledByNative("")
   static Object getStringClass() {
     return String.class;
   }
 
   // TODO(bugs.webrtc.org/8606): Remove.
-  @CalledByNative
+  @CalledByNative("")
   static Object getKey(Map.Entry entry) {
     return entry.getKey();
   }
 
   // TODO(bugs.webrtc.org/8606): Remove.
-  @CalledByNative
+  @CalledByNative("")
   static Object getValue(Map.Entry entry) {
     return entry.getValue();
   }

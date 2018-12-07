@@ -20,7 +20,7 @@ public class RtpSender {
   private boolean ownsTrack = true;
   private final @Nullable DtmfSender dtmfSender;
 
-  @CalledByNative
+  @CalledByNative("")
   public RtpSender(long nativeRtpSender) {
     this.nativeRtpSender = nativeRtpSender;
     long nativeTrack = nativeGetTrack(nativeRtpSender);

@@ -27,7 +27,7 @@ public class TurnCustomizer {
   private static native void nativeFreeTurnCustomizer(long turnCustomizer);
 
   /** Return a pointer to webrtc::TurnCustomizer. */
-  @CalledByNative
+  @CalledByNative("")
   long getNativeTurnCustomizer() {
     checkTurnCustomizerExists();
     return nativeTurnCustomizer;

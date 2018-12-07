@@ -1118,7 +1118,7 @@ public class PeerConnection {
     return nativeGetNativePeerConnection();
   }
 
-  @CalledByNative
+  @CalledByNative("")
   long getNativeOwnedPeerConnection() {
     return nativePeerConnection;
   }

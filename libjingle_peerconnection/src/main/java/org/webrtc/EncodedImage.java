@@ -55,7 +55,7 @@ public class EncodedImage {
   public final boolean completeFrame;
   public final Integer qp;
 
-  @CalledByNative
+  @CalledByNative("")
   private EncodedImage(ByteBuffer buffer, int encodedWidth, int encodedHeight, long captureTimeNs,
       FrameType frameType, int rotation, boolean completeFrame, Integer qp) {
     this.buffer = buffer;

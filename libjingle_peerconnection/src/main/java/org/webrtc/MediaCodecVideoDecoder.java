@@ -412,7 +412,7 @@ public class MediaCodecVideoDecoder {
     return null; // No HW decoder.
   }
 
-  @CalledByNative
+  @CalledByNative("")
   MediaCodecVideoDecoder() {}
 
   private void checkOnMediaCodecThread() throws IllegalStateException {
@@ -984,37 +984,37 @@ public class MediaCodecVideoDecoder {
     mediaCodec.releaseOutputBuffer(index, false /* render */);
   }
 
-  @CalledByNative
+  @CalledByNative("")
   ByteBuffer[] getInputBuffers() {
     return inputBuffers;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   ByteBuffer[] getOutputBuffers() {
     return outputBuffers;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   int getColorFormat() {
     return colorFormat;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   int getWidth() {
     return width;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   int getHeight() {
     return height;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   int getStride() {
     return stride;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   int getSliceHeight() {
     return sliceHeight;
   }

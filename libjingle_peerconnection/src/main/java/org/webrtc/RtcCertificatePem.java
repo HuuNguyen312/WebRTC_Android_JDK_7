@@ -22,18 +22,18 @@ public class RtcCertificatePem {
   private static final long DEFAULT_EXPIRY = 60 * 60 * 24 * 30;
 
   /** Instantiate an RtcCertificatePem object from stored strings. */
-  @CalledByNative
+  @CalledByNative("")
   public RtcCertificatePem(String privateKey, String certificate) {
     this.privateKey = privateKey;
     this.certificate = certificate;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   String getPrivateKey() {
     return privateKey;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   String getCertificate() {
     return certificate;
   }

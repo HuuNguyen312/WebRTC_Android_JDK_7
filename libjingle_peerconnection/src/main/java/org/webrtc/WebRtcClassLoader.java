@@ -16,7 +16,7 @@ package org.webrtc;
  * mechanism is unable to automatically determine the appropriate ClassLoader instance.
  */
 class WebRtcClassLoader {
-  @CalledByNative
+  @CalledByNative("")
   static Object getClassLoader() {
     return WebRtcClassLoader.class.getClassLoader();
   }

@@ -143,7 +143,7 @@ class WebRtcAudioRecord {
     }
   }
 
-  @CalledByNative
+  @CalledByNative("")
   WebRtcAudioRecord(Context context, AudioManager audioManager) {
     this(context, audioManager, DEFAULT_AUDIO_SOURCE, null /* errorCallback */,
         null /* audioSamplesReadyCallback */, WebRtcAudioEffects.isAcousticEchoCancelerSupported(),
@@ -169,34 +169,34 @@ class WebRtcAudioRecord {
     this.isNoiseSuppressorSupported = isNoiseSuppressorSupported;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   public void setNativeAudioRecord(long nativeAudioRecord) {
     this.nativeAudioRecord = nativeAudioRecord;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   boolean isAcousticEchoCancelerSupported() {
     return isAcousticEchoCancelerSupported;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   boolean isNoiseSuppressorSupported() {
     return isNoiseSuppressorSupported;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private boolean enableBuiltInAEC(boolean enable) {
     Logging.d(TAG, "enableBuiltInAEC(" + enable + ")");
     return effects.setAEC(enable);
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private boolean enableBuiltInNS(boolean enable) {
     Logging.d(TAG, "enableBuiltInNS(" + enable + ")");
     return effects.setNS(enable);
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private int initRecording(int sampleRate, int channels) {
     Logging.d(TAG, "initRecording(sampleRate=" + sampleRate + ", channels=" + channels + ")");
     if (audioRecord != null) {
@@ -253,7 +253,7 @@ class WebRtcAudioRecord {
     return framesPerBuffer;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private boolean startRecording() {
     Logging.d(TAG, "startRecording");
     assertTrue(audioRecord != null);
@@ -276,7 +276,7 @@ class WebRtcAudioRecord {
     return true;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private boolean stopRecording() {
     Logging.d(TAG, "stopRecording");
     assertTrue(audioThread != null);

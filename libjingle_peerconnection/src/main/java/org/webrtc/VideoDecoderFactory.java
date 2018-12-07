@@ -26,7 +26,7 @@ public interface VideoDecoderFactory {
 
   /** Creates a decoder for the given video codec. */
   @Nullable
-  @CalledByNative
+  @CalledByNative("")
   default VideoDecoder createDecoder(VideoCodecInfo info) {
     return createDecoder(info.getName());
   }
@@ -34,7 +34,7 @@ public interface VideoDecoderFactory {
   /**
    * Enumerates the list of supported video codecs.
    */
-  @CalledByNative
+  @CalledByNative("")
   default VideoCodecInfo[] getSupportedCodecs() {
     return new VideoCodecInfo[0];
   }

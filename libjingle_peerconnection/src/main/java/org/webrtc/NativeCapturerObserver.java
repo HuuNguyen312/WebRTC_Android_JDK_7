@@ -20,7 +20,7 @@ class NativeCapturerObserver implements CapturerObserver {
   // Pointer to webrtc::jni::AndroidVideoTrackSource.
   private final long nativeSource;
 
-  @CalledByNative
+  @CalledByNative("")
   public NativeCapturerObserver(long nativeSource) {
     this.nativeSource = nativeSource;
   }

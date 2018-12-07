@@ -525,7 +525,7 @@ public class MediaCodecVideoEncoder {
     return null; // No HW encoder.
   }
 
-  @CalledByNative
+  @CalledByNative("")
   MediaCodecVideoEncoder() {}
 
   private void checkOnMediaCodecThread() {
@@ -1089,12 +1089,12 @@ public class MediaCodecVideoEncoder {
     }
   }
 
-  @CalledByNative
+  @CalledByNative("")
   int getColorFormat() {
     return colorFormat;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   static boolean isTextureBuffer(VideoFrame.Buffer buffer) {
     return buffer instanceof VideoFrame.TextureBuffer;
   }

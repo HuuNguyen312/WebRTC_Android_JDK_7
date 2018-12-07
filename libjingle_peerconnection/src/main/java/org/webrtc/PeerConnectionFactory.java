@@ -326,7 +326,7 @@ public class PeerConnectionFactory {
     }
   }
 
-  @CalledByNative
+  @CalledByNative("")
   PeerConnectionFactory(long nativeFactory) {
     checkInitializeHasBeenCalled();
     if (nativeFactory == 0) {
@@ -492,19 +492,19 @@ public class PeerConnectionFactory {
     printStackTrace(signalingThread, "Signaling thread");
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private static void onNetworkThreadReady() {
     networkThread = Thread.currentThread();
     Logging.d(TAG, "onNetworkThreadReady");
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private static void onWorkerThreadReady() {
     workerThread = Thread.currentThread();
     Logging.d(TAG, "onWorkerThreadReady");
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private static void onSignalingThreadReady() {
     signalingThread = Thread.currentThread();
     Logging.d(TAG, "onSignalingThreadReady");
