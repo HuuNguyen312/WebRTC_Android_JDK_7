@@ -422,7 +422,7 @@ public class MediaCodecVideoDecoder {
     }
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   private boolean initDecode(VideoCodecType type, int width, int height) {
     if (mediaCodecThread != null) {
       throw new RuntimeException("initDecode: Forgot to release()?");
@@ -501,7 +501,7 @@ public class MediaCodecVideoDecoder {
 
   // Resets the decoder so it can start decoding frames with new resolution.
   // Flushes MediaCodec and clears decoder output buffers.
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   private void reset(int width, int height) {
     if (mediaCodecThread == null || mediaCodec == null) {
       throw new RuntimeException("Incorrect reset call for non-initialized decoder.");
@@ -521,7 +521,7 @@ public class MediaCodecVideoDecoder {
     droppedFrames = 0;
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   private void release() {
     Logging.d(TAG, "Java releaseDecoder. Total number of dropped frames: " + droppedFrames);
     checkOnMediaCodecThread();
@@ -568,7 +568,7 @@ public class MediaCodecVideoDecoder {
 
   // Dequeue an input buffer and return its index, -1 if no input buffer is
   // available, or -2 if the codec is no longer operative.
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   private int dequeueInputBuffer() {
     checkOnMediaCodecThread();
     try {
@@ -579,7 +579,7 @@ public class MediaCodecVideoDecoder {
     }
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   private boolean queueInputBuffer(int inputBufferIndex, int size, long presentationTimeStamUs,
       long timeStampMs, long ntpTimeStamp) {
     checkOnMediaCodecThread();
@@ -824,7 +824,7 @@ public class MediaCodecVideoDecoder {
   // Throws IllegalStateException if call is made on the wrong thread, if color format changes to an
   // unsupported format, or if |mediaCodec| is not in the Executing state. Throws CodecException
   // upon codec error.
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   private @Nullable DecodedOutputBuffer dequeueOutputBuffer(int dequeueTimeoutMs) {
     checkOnMediaCodecThread();
     if (decodeStartTimeMs.isEmpty()) {
@@ -911,7 +911,7 @@ public class MediaCodecVideoDecoder {
   // unsupported format, or if |mediaCodec| is not in the Executing state. Throws CodecException
   // upon codec error. If |dequeueTimeoutMs| > 0, the oldest decoded frame will be dropped if
   // a frame can't be returned.
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   private @Nullable DecodedTextureBuffer dequeueTextureBuffer(int dequeueTimeoutMs) {
     checkOnMediaCodecThread();
     if (!useSurface()) {
@@ -974,7 +974,7 @@ public class MediaCodecVideoDecoder {
   // Throws IllegalStateException if the call is made on the wrong thread, if codec is configured
   // for surface decoding, or if |mediaCodec| is not in the Executing state. Throws
   // MediaCodec.CodecException upon codec error.
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   private void returnDecodedOutputBuffer(int index)
       throws IllegalStateException, MediaCodec.CodecException {
     checkOnMediaCodecThread();

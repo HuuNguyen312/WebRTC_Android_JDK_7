@@ -557,7 +557,7 @@ public class MediaCodecVideoEncoder {
     }
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   boolean initEncode(VideoCodecType type, int profile, int width, int height, int kbps, int fps,
       boolean useSurface) {
     Logging.d(TAG,
@@ -678,7 +678,7 @@ public class MediaCodecVideoEncoder {
     return true;
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   ByteBuffer[] getInputBuffers() {
     ByteBuffer[] inputBuffers = mediaCodec.getInputBuffers();
     Logging.d(TAG, "Input buffers: " + inputBuffers.length);
@@ -712,7 +712,7 @@ public class MediaCodecVideoEncoder {
     }
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   boolean encodeBuffer(
       boolean isKeyframe, int inputBuffer, int size, long presentationTimestampUs) {
     checkOnMediaCodecThread();
@@ -729,7 +729,7 @@ public class MediaCodecVideoEncoder {
   /**
    * Encodes a new style VideoFrame. |bufferIndex| is -1 if we are not encoding in surface mode.
    */
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   boolean encodeFrame(long nativeEncoder, boolean isKeyframe, VideoFrame frame, int bufferIndex,
       long presentationTimestampUs) {
     checkOnMediaCodecThread();
@@ -779,7 +779,7 @@ public class MediaCodecVideoEncoder {
     }
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   void release() {
     Logging.d(TAG, "Java releaseEncoder");
     checkOnMediaCodecThread();
@@ -861,7 +861,7 @@ public class MediaCodecVideoEncoder {
     Logging.d(TAG, "Java releaseEncoder done");
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   private boolean setRates(int kbps, int frameRate) {
     checkOnMediaCodecThread();
 
@@ -904,7 +904,7 @@ public class MediaCodecVideoEncoder {
 
   // Dequeue an input buffer and return its index, -1 if no input buffer is
   // available, or -2 if the codec is no longer operative.
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   int dequeueInputBuffer() {
     checkOnMediaCodecThread();
     try {
@@ -954,7 +954,7 @@ public class MediaCodecVideoEncoder {
   // Dequeue and return an output buffer, or null if no output is ready.  Return
   // a fake OutputBufferInfo with index -1 if the codec is no longer operable.
   @Nullable
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   OutputBufferInfo dequeueOutputBuffer() {
     checkOnMediaCodecThread();
     try {
@@ -1077,7 +1077,7 @@ public class MediaCodecVideoEncoder {
 
   // Release a dequeued output buffer back to the codec for re-use.  Return
   // false if the codec is no longer operable.
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   boolean releaseOutputBuffer(int index) {
     checkOnMediaCodecThread();
     try {
