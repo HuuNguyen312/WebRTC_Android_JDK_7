@@ -105,7 +105,7 @@ public class DataChannel {
   private long nativeDataChannel;
   private long nativeObserver;
 
-  @CalledByNative
+  @CalledByNative("")
   public DataChannel(long nativeDataChannel) {
     this.nativeDataChannel = nativeDataChannel;
   }
@@ -173,7 +173,7 @@ public class DataChannel {
     nativeDataChannel = 0;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   long getNativeDataChannel() {
     return nativeDataChannel;
   }

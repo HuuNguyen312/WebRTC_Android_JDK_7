@@ -82,12 +82,12 @@ public class MediaCodecVideoEncoder {
 
       if (isVp8HwSupported()) {
         Logging.d(TAG, "VP8 HW Encoder supported.");
-        codecs.add(new VideoCodecInfo("VP8", new HashMap<>()));
+        codecs.add(new VideoCodecInfo("VP8", new HashMap<String, String>()));
       }
 
       if (isVp9HwSupported()) {
         Logging.d(TAG, "VP9 HW Encoder supported.");
-        codecs.add(new VideoCodecInfo("VP9", new HashMap<>()));
+        codecs.add(new VideoCodecInfo("VP9", new HashMap<String, String>()));
       }
 
       // Check if high profile is supported by decoder. If yes, encoder can always
@@ -114,7 +114,7 @@ public class MediaCodecVideoEncoder {
 
     @Nullable
     @Override
-    public VideoEncoder createEncoder(VideoCodecInfo info) {
+    public VideoEncoder createEncoder(final VideoCodecInfo info) {
       if (!isCodecSupported(supportedHardwareCodecs, info)) {
         Logging.d(TAG, "No HW video encoder for codec " + info.name);
         return null;
@@ -247,7 +247,7 @@ public class MediaCodecVideoEncoder {
       Logging.w(TAG, "Egl context already set.");
       staticEglBase.release();
     }
-    staticEglBase = EglBase.create(eglContext);
+    staticEglBase = EglBaseHelper.create(eglContext);
   }
 
   /** Dispose the EGL context used by HW encoding. */
@@ -525,7 +525,7 @@ public class MediaCodecVideoEncoder {
     return null; // No HW encoder.
   }
 
-  @CalledByNative
+  @CalledByNative("")
   MediaCodecVideoEncoder() {}
 
   private void checkOnMediaCodecThread() {
@@ -557,7 +557,7 @@ public class MediaCodecVideoEncoder {
     }
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   boolean initEncode(VideoCodecType type, int profile, int width, int height, int kbps, int fps,
       boolean useSurface) {
     Logging.d(TAG,
@@ -678,7 +678,7 @@ public class MediaCodecVideoEncoder {
     return true;
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   ByteBuffer[] getInputBuffers() {
     ByteBuffer[] inputBuffers = mediaCodec.getInputBuffers();
     Logging.d(TAG, "Input buffers: " + inputBuffers.length);
@@ -712,7 +712,7 @@ public class MediaCodecVideoEncoder {
     }
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   boolean encodeBuffer(
       boolean isKeyframe, int inputBuffer, int size, long presentationTimestampUs) {
     checkOnMediaCodecThread();
@@ -729,7 +729,7 @@ public class MediaCodecVideoEncoder {
   /**
    * Encodes a new style VideoFrame. |bufferIndex| is -1 if we are not encoding in surface mode.
    */
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   boolean encodeFrame(long nativeEncoder, boolean isKeyframe, VideoFrame frame, int bufferIndex,
       long presentationTimestampUs) {
     checkOnMediaCodecThread();
@@ -779,7 +779,7 @@ public class MediaCodecVideoEncoder {
     }
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   void release() {
     Logging.d(TAG, "Java releaseEncoder");
     checkOnMediaCodecThread();
@@ -861,7 +861,7 @@ public class MediaCodecVideoEncoder {
     Logging.d(TAG, "Java releaseEncoder done");
   }
 
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   private boolean setRates(int kbps, int frameRate) {
     checkOnMediaCodecThread();
 
@@ -904,7 +904,7 @@ public class MediaCodecVideoEncoder {
 
   // Dequeue an input buffer and return its index, -1 if no input buffer is
   // available, or -2 if the codec is no longer operative.
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   int dequeueInputBuffer() {
     checkOnMediaCodecThread();
     try {
@@ -954,7 +954,7 @@ public class MediaCodecVideoEncoder {
   // Dequeue and return an output buffer, or null if no output is ready.  Return
   // a fake OutputBufferInfo with index -1 if the codec is no longer operable.
   @Nullable
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   OutputBufferInfo dequeueOutputBuffer() {
     checkOnMediaCodecThread();
     try {
@@ -1077,7 +1077,7 @@ public class MediaCodecVideoEncoder {
 
   // Release a dequeued output buffer back to the codec for re-use.  Return
   // false if the codec is no longer operable.
-  @CalledByNativeUnchecked
+  @CalledByNativeUnchecked("")
   boolean releaseOutputBuffer(int index) {
     checkOnMediaCodecThread();
     try {
@@ -1089,12 +1089,12 @@ public class MediaCodecVideoEncoder {
     }
   }
 
-  @CalledByNative
+  @CalledByNative("")
   int getColorFormat() {
     return colorFormat;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   static boolean isTextureBuffer(VideoFrame.Buffer buffer) {
     return buffer instanceof VideoFrame.TextureBuffer;
   }

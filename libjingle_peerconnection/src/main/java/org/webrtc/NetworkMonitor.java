@@ -69,7 +69,7 @@ public class NetworkMonitor {
   public static void init(Context context) {}
 
   /** Returns the singleton instance. This may be called from native or from Java code. */
-  @CalledByNative
+  @CalledByNative("")
   public static NetworkMonitor getInstance() {
     return InstanceHolder.instance;
   }
@@ -107,7 +107,7 @@ public class NetworkMonitor {
    * multi-networking. This requires the embedding app have the platform ACCESS_NETWORK_STATE and
    * CHANGE_NETWORK_STATE permission.
    */
-  @CalledByNative
+  @CalledByNative("")
   private void startMonitoring(@Nullable Context applicationContext, long nativeObserver) {
     Logging.d(TAG, "Start monitoring with native observer " + nativeObserver);
 
@@ -133,7 +133,7 @@ public class NetworkMonitor {
     }
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private void stopMonitoring(long nativeObserver) {
     Logging.d(TAG, "Stop monitoring with native observer " + nativeObserver);
     stopMonitoring();
@@ -143,14 +143,14 @@ public class NetworkMonitor {
   }
 
   // Returns true if network binding is supported on this platform.
-  @CalledByNative
+  @CalledByNative("")
   private boolean networkBindingSupported() {
     synchronized (autoDetectLock) {
       return autoDetect != null && autoDetect.supportNetworkCallback();
     }
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private static int androidSdkInt() {
     return Build.VERSION.SDK_INT;
   }

@@ -36,7 +36,7 @@ public class VideoCodecInfo {
   public final Map<String, String> params;
   @Deprecated public final int payload;
 
-  @CalledByNative
+  @CalledByNative("")
   public VideoCodecInfo(String name, Map<String, String> params) {
     this.payload = 0;
     this.name = name;
@@ -69,12 +69,12 @@ public class VideoCodecInfo {
     return Arrays.hashCode(values);
   }
 
-  @CalledByNative
+  @CalledByNative("")
   String getName() {
     return name;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   Map getParams() {
     return params;
   }

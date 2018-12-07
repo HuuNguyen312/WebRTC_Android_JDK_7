@@ -106,7 +106,7 @@ public class RTCStats {
 
   // TODO(bugs.webrtc.org/8557) Use ctor directly with full Map type.
   @SuppressWarnings("unchecked")
-  @CalledByNative
+  @CalledByNative("")
   static RTCStats create(long timestampUs, String type, String id, Map members) {
     return new RTCStats(timestampUs, type, id, members);
   }

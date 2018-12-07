@@ -23,5 +23,5 @@ public interface SSLCertificateVerifier {
    * @param certificate A byte array containing a DER encoded X509 certificate.
    * @return True if the certificate is verified and trusted else false.
    */
-  @CalledByNative boolean verify(byte[] certificate);
+  @CalledByNative("") boolean verify(byte[] certificate);
 }

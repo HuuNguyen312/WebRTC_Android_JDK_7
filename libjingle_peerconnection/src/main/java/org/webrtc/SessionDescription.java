@@ -37,18 +37,18 @@ public class SessionDescription {
   public final Type type;
   public final String description;
 
-  @CalledByNative
+  @CalledByNative("")
   public SessionDescription(Type type, String description) {
     this.type = type;
     this.description = description;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   String getDescription() {
     return description;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   String getTypeInCanonicalForm() {
     return type.canonicalForm();
   }

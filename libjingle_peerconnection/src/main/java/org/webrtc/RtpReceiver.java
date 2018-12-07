@@ -27,7 +27,7 @@ public class RtpReceiver {
 
   @Nullable private MediaStreamTrack cachedTrack;
 
-  @CalledByNative
+  @CalledByNative("")
   public RtpReceiver(long nativeRtpReceiver) {
     this.nativeRtpReceiver = nativeRtpReceiver;
     long nativeTrack = nativeGetTrack(nativeRtpReceiver);
@@ -54,7 +54,7 @@ public class RtpReceiver {
     return nativeGetId(nativeRtpReceiver);
   }
 
-  @CalledByNative
+  @CalledByNative("")
   public void dispose() {
     checkRtpReceiverExists();
     cachedTrack.dispose();

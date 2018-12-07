@@ -130,7 +130,7 @@ public class VideoFrame implements RefCounted {
    *
    * @note Ownership of the buffer object is tranferred to the new VideoFrame.
    */
-  @CalledByNative
+  @CalledByNative("")
   public VideoFrame(Buffer buffer, int rotation, long timestampNs) {
     if (buffer == null) {
       throw new IllegalArgumentException("buffer not allowed to be null");
@@ -143,7 +143,7 @@ public class VideoFrame implements RefCounted {
     this.timestampNs = timestampNs;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   public Buffer getBuffer() {
     return buffer;
   }
@@ -151,7 +151,7 @@ public class VideoFrame implements RefCounted {
   /**
    * Rotation of the frame in degrees.
    */
-  @CalledByNative
+  @CalledByNative("")
   public int getRotation() {
     return rotation;
   }
@@ -159,7 +159,7 @@ public class VideoFrame implements RefCounted {
   /**
    * Timestamp of the frame in nano seconds.
    */
-  @CalledByNative
+  @CalledByNative("")
   public long getTimestampNs() {
     return timestampNs;
   }
@@ -184,7 +184,7 @@ public class VideoFrame implements RefCounted {
   }
 
   @Override
-  @CalledByNative
+  @CalledByNative("")
   public void release() {
     buffer.release();
   }

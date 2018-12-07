@@ -76,7 +76,7 @@ public class RtpTransceiver {
     }
 
     public RtpTransceiverInit(RtpTransceiverDirection direction) {
-      this(direction, Collections.emptyList());
+      this(direction, Collections.<String>emptyList());
     }
 
     public RtpTransceiverInit(RtpTransceiverDirection direction, List<String> streamIds) {
@@ -99,7 +99,7 @@ public class RtpTransceiver {
   private RtpSender cachedSender;
   private RtpReceiver cachedReceiver;
 
-  @CalledByNative
+  @CalledByNative("")
   protected RtpTransceiver(long nativeRtpTransceiver) {
     this.nativeRtpTransceiver = nativeRtpTransceiver;
     cachedSender = nativeGetSender(nativeRtpTransceiver);
@@ -201,7 +201,7 @@ public class RtpTransceiver {
     nativeStop(nativeRtpTransceiver);
   }
 
-  @CalledByNative
+  @CalledByNative("")
   public void dispose() {
     checkRtpTransceiverExists();
     cachedSender.dispose();

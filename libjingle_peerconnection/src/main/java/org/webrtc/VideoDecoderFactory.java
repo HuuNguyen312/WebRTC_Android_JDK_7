@@ -20,22 +20,25 @@ public interface VideoDecoderFactory {
    */
   @Deprecated
   @Nullable
-  default VideoDecoder createDecoder(String codecType) {
+  VideoDecoder createDecoder(String codecType);
+/*  default VideoDecoder createDecoder(String codecType) {
     throw new UnsupportedOperationException("Deprecated and not implemented.");
-  }
+  }*/
 
   /** Creates a decoder for the given video codec. */
   @Nullable
-  @CalledByNative
-  default VideoDecoder createDecoder(VideoCodecInfo info) {
+  @CalledByNative("")
+  VideoDecoder createDecoder(VideoCodecInfo info);
+ /* default VideoDecoder createDecoder(VideoCodecInfo info) {
     return createDecoder(info.getName());
-  }
+  }*/
 
   /**
    * Enumerates the list of supported video codecs.
    */
-  @CalledByNative
-  default VideoCodecInfo[] getSupportedCodecs() {
+  @CalledByNative("")
+  VideoCodecInfo[] getSupportedCodecs();
+/*  default VideoCodecInfo[] getSupportedCodecs() {
     return new VideoCodecInfo[0];
-  }
+  }*/
 }

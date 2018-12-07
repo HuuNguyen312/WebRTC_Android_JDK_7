@@ -87,12 +87,12 @@ public class MediaConstraints {
         + stringifyKeyValuePairList(optional);
   }
 
-  @CalledByNative
+  @CalledByNative("")
   List<KeyValuePair> getMandatory() {
     return mandatory;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   List<KeyValuePair> getOptional() {
     return optional;
   }

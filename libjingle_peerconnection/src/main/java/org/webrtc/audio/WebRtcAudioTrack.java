@@ -162,7 +162,7 @@ class WebRtcAudioTrack {
     }
   }
 
-  @CalledByNative
+  @CalledByNative("")
   WebRtcAudioTrack(Context context, AudioManager audioManager) {
     this(context, audioManager, null /* errorCallback */);
   }
@@ -176,12 +176,12 @@ class WebRtcAudioTrack {
     this.volumeLogger = new VolumeLogger(audioManager);
   }
 
-  @CalledByNative
+  @CalledByNative("")
   public void setNativeAudioTrack(long nativeAudioTrack) {
     this.nativeAudioTrack = nativeAudioTrack;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private boolean initPlayout(int sampleRate, int channels) {
     threadChecker.checkIsOnValidThread();
     Logging.d(TAG, "initPlayout(sampleRate=" + sampleRate + ", channels=" + channels + ")");
@@ -254,7 +254,7 @@ class WebRtcAudioTrack {
     return true;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private boolean startPlayout() {
     threadChecker.checkIsOnValidThread();
     volumeLogger.start();
@@ -286,7 +286,7 @@ class WebRtcAudioTrack {
     return true;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private boolean stopPlayout() {
     threadChecker.checkIsOnValidThread();
     volumeLogger.stop();
@@ -308,7 +308,7 @@ class WebRtcAudioTrack {
   }
 
   // Get max possible volume index for a phone call audio stream.
-  @CalledByNative
+  @CalledByNative("")
   private int getStreamMaxVolume() {
     threadChecker.checkIsOnValidThread();
     Logging.d(TAG, "getStreamMaxVolume");
@@ -316,7 +316,7 @@ class WebRtcAudioTrack {
   }
 
   // Set current volume level for a phone call audio stream.
-  @CalledByNative
+  @CalledByNative("")
   private boolean setStreamVolume(int volume) {
     threadChecker.checkIsOnValidThread();
     Logging.d(TAG, "setStreamVolume(" + volume + ")");
@@ -335,7 +335,7 @@ class WebRtcAudioTrack {
   }
 
   /** Get current volume level for a phone call audio stream. */
-  @CalledByNative
+  @CalledByNative("")
   private int getStreamVolume() {
     threadChecker.checkIsOnValidThread();
     Logging.d(TAG, "getStreamVolume");

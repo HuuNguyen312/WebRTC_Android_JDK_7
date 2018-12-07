@@ -47,6 +47,7 @@ import org.webrtc.Camera1Enumerator;
 import org.webrtc.Camera2Enumerator;
 import org.webrtc.CameraEnumerator;
 import org.webrtc.EglBase;
+import org.webrtc.EglBaseHelper;
 import org.webrtc.FileVideoCapturer;
 import org.webrtc.IceCandidate;
 import org.webrtc.Logging;
@@ -232,7 +233,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     remoteSinks.add(remoteProxyRenderer);
 
     final Intent intent = getIntent();
-    final EglBase eglBase = EglBase.create();
+    final EglBase eglBase = EglBaseHelper.create();
 
     // Create video renderers.
     pipRenderer.init(eglBase.getEglBaseContext(), null);

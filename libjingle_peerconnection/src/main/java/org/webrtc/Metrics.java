@@ -34,7 +34,7 @@ public class Metrics {
   public final Map<String, HistogramInfo> map =
       new HashMap<String, HistogramInfo>(); // <name, HistogramInfo>
 
-  @CalledByNative
+  @CalledByNative("")
   Metrics() {}
 
   /**
@@ -60,7 +60,7 @@ public class Metrics {
     }
   }
 
-  @CalledByNative
+  @CalledByNative("")
   private void add(String name, HistogramInfo info) {
     map.put(name, info);
   }

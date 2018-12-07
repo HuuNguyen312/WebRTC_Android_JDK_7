@@ -82,19 +82,18 @@ public interface CameraVideoCapturer extends VideoCapturer {
    * This function can be called from any thread.
    */
   @Deprecated
-  default void addMediaRecorderToCamera(
+  void addMediaRecorderToCamera();
+  /*default void addMediaRecorderToCamera(
       MediaRecorder mediaRecorder, MediaRecorderHandler resultHandler) {
     throw new UnsupportedOperationException("Deprecated and not implemented.");
-  }
+  }*/
 
   /**
    * Remove MediaRecorder from camera pipeline. This can only be called while the camera is running.
    * This function can be called from any thread.
    */
   @Deprecated
-  default void removeMediaRecorderFromCamera(MediaRecorderHandler resultHandler) {
-    throw new UnsupportedOperationException("Deprecated and not implemented.");
-  }
+  void removeMediaRecorderFromCamera(MediaRecorderHandler resultHandler);
 
   /**
    * Helper class to log framerate and detect if the camera freezes. It will run periodic callbacks

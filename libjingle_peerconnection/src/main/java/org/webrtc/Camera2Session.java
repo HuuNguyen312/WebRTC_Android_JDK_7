@@ -182,32 +182,35 @@ class Camera2Session implements CameraSession {
         return;
       }
 
-      surfaceTextureHelper.startListening((VideoFrame frame) -> {
-        checkIsOnCameraThread();
+      surfaceTextureHelper.startListening(new VideoSink() {
+        @Override
+        public void onFrame(VideoFrame frame) {
+          checkIsOnCameraThread();
 
-        if (state != SessionState.RUNNING) {
-          Logging.d(TAG, "Texture frame captured but camera is no longer running.");
-          return;
+          if (state != SessionState.RUNNING) {
+            Logging.d(TAG, "Texture frame captured but camera is no longer running.");
+            return;
+          }
+
+          if (!firstFrameReported) {
+            firstFrameReported = true;
+            final int startTimeMs =
+                    (int) TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - constructionTimeNs);
+            camera2StartTimeMsHistogram.addSample(startTimeMs);
+          }
+
+          // Undo the mirror that the OS "helps" us with.
+          // http://developer.android.com/reference/android/hardware/Camera.html#setDisplayOrientation(int)
+          // Also, undo camera orientation, we report it as rotation instead.
+          final VideoFrame modifiedFrame =
+                  new VideoFrame(CameraSessionHelper.createTextureBufferWithModifiedTransformMatrix(
+                          (TextureBufferImpl) frame.getBuffer(),
+                          /* mirror= */ isCameraFrontFacing,
+                          /* rotation= */ -cameraOrientation),
+                          /* rotation= */ getFrameOrientation(), frame.getTimestampNs());
+          events.onFrameCaptured(Camera2Session.this, modifiedFrame);
+          modifiedFrame.release();
         }
-
-        if (!firstFrameReported) {
-          firstFrameReported = true;
-          final int startTimeMs =
-              (int) TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - constructionTimeNs);
-          camera2StartTimeMsHistogram.addSample(startTimeMs);
-        }
-
-        // Undo the mirror that the OS "helps" us with.
-        // http://developer.android.com/reference/android/hardware/Camera.html#setDisplayOrientation(int)
-        // Also, undo camera orientation, we report it as rotation instead.
-        final VideoFrame modifiedFrame =
-            new VideoFrame(CameraSession.createTextureBufferWithModifiedTransformMatrix(
-                               (TextureBufferImpl) frame.getBuffer(),
-                               /* mirror= */ isCameraFrontFacing,
-                               /* rotation= */ -cameraOrientation),
-                /* rotation= */ getFrameOrientation(), frame.getTimestampNs());
-        events.onFrameCaptured(Camera2Session.this, modifiedFrame);
-        modifiedFrame.release();
       });
       Logging.d(TAG, "Camera device successfully started.");
       callback.onDone(Camera2Session.this);
@@ -407,7 +410,7 @@ class Camera2Session implements CameraSession {
   }
 
   private int getFrameOrientation() {
-    int rotation = CameraSession.getDeviceOrientation(applicationContext);
+    int rotation = CameraSessionHelper.getDeviceOrientation(applicationContext);
     if (!isCameraFrontFacing) {
       rotation = 360 - rotation;
     }

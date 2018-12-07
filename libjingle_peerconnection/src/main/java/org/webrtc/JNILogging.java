@@ -21,7 +21,7 @@ class JNILogging {
     this.loggable = loggable;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   public void logToInjectable(String message, Integer severity, String tag) {
     loggable.onLogMessage(message, Severity.values()[severity], tag);
   }

@@ -32,4 +32,14 @@ public class Camera1Capturer extends CameraCapturer {
         surfaceTextureHelper, Camera1Enumerator.getCameraIndex(cameraName), width, height,
         framerate);
   }
+
+  @Override
+  public void addMediaRecorderToCamera() {
+
+  }
+
+  @Override
+  public void removeMediaRecorderFromCamera(MediaRecorderHandler resultHandler) {
+
+  }
 }

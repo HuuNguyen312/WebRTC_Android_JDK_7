@@ -212,7 +212,7 @@ public class RtpParameters {
   // remove them.
   public final List<Codec> codecs;
 
-  @CalledByNative
+  @CalledByNative("")
   RtpParameters(String transactionId, Rtcp rtcp, List<HeaderExtension> headerExtensions,
       List<Encoding> encodings, List<Codec> codecs) {
     this.transactionId = transactionId;
@@ -222,27 +222,27 @@ public class RtpParameters {
     this.codecs = codecs;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   String getTransactionId() {
     return transactionId;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   public Rtcp getRtcp() {
     return rtcp;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   public List<HeaderExtension> getHeaderExtensions() {
     return headerExtensions;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   List<Encoding> getEncodings() {
     return encodings;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   List<Codec> getCodecs() {
     return codecs;
   }

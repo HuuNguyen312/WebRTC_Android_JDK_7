@@ -23,7 +23,7 @@ public class MediaStream {
   public final List<VideoTrack> preservedVideoTracks = new ArrayList<>();
   private long nativeStream;
 
-  @CalledByNative
+  @CalledByNative("")
   public MediaStream(long nativeStream) {
     this.nativeStream = nativeStream;
   }
@@ -71,7 +71,7 @@ public class MediaStream {
     return nativeRemoveVideoTrack(nativeStream, track.getNativeVideoTrack());
   }
 
-  @CalledByNative
+  @CalledByNative("")
   public void dispose() {
     checkMediaStreamExists();
     // Remove and release previously added audio and video tracks.
@@ -103,22 +103,22 @@ public class MediaStream {
     return "[" + getId() + ":A=" + audioTracks.size() + ":V=" + videoTracks.size() + "]";
   }
 
-  @CalledByNative
+  @CalledByNative("")
   void addNativeAudioTrack(long nativeTrack) {
     audioTracks.add(new AudioTrack(nativeTrack));
   }
 
-  @CalledByNative
+  @CalledByNative("")
   void addNativeVideoTrack(long nativeTrack) {
     videoTracks.add(new VideoTrack(nativeTrack));
   }
 
-  @CalledByNative
+  @CalledByNative("")
   void removeAudioTrack(long nativeTrack) {
     removeMediaStreamTrack(audioTracks, nativeTrack);
   }
 
-  @CalledByNative
+  @CalledByNative("")
   void removeVideoTrack(long nativeTrack) {
     removeMediaStreamTrack(videoTracks, nativeTrack);
   }

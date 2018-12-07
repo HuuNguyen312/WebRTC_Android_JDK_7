@@ -19,29 +19,33 @@ import java.nio.ByteBuffer;
  * This class contains the Java glue code for JNI generation of VideoEncoder.
  */
 class VideoEncoderWrapper {
-  @CalledByNative
+  @CalledByNative("")
   static boolean getScalingSettingsOn(VideoEncoder.ScalingSettings scalingSettings) {
     return scalingSettings.on;
   }
 
   @Nullable
-  @CalledByNative
+  @CalledByNative("")
   static Integer getScalingSettingsLow(VideoEncoder.ScalingSettings scalingSettings) {
     return scalingSettings.low;
   }
 
   @Nullable
-  @CalledByNative
+  @CalledByNative("")
   static Integer getScalingSettingsHigh(VideoEncoder.ScalingSettings scalingSettings) {
     return scalingSettings.high;
   }
 
-  @CalledByNative
+  @CalledByNative("")
   static VideoEncoder.Callback createEncoderCallback(final long nativeEncoder) {
-    return (EncodedImage frame, VideoEncoder.CodecSpecificInfo info)
-               -> nativeOnEncodedFrame(nativeEncoder, frame.buffer, frame.encodedWidth,
-                   frame.encodedHeight, frame.captureTimeNs, frame.frameType.getNative(),
-                   frame.rotation, frame.completeFrame, frame.qp);
+    return new VideoEncoder.Callback() {
+      @Override
+      public void onEncodedFrame(EncodedImage frame, VideoEncoder.CodecSpecificInfo info) {
+        nativeOnEncodedFrame(nativeEncoder, frame.buffer, frame.encodedWidth,
+                frame.encodedHeight, frame.captureTimeNs, frame.frameType.getNative(),
+                frame.rotation, frame.completeFrame, frame.qp);
+      }
+    };
   }
 
   private static native void nativeOnEncodedFrame(long nativeVideoEncoderWrapper, ByteBuffer buffer,

@@ -68,32 +68,30 @@ public interface VideoDecoder {
    * the Java interface methods declared below should thus throw an
    * UnsupportedOperationException.
    */
-  @CalledByNative
-  default long createNativeVideoDecoder() {
-    return 0;
-  }
+  @CalledByNative("")
+  long createNativeVideoDecoder();
 
   /**
    * Initializes the decoding process with specified settings. Will be called on the decoding thread
    * before any decode calls.
    */
-  @CalledByNative VideoCodecStatus initDecode(Settings settings, Callback decodeCallback);
+  @CalledByNative("") VideoCodecStatus initDecode(Settings settings, Callback decodeCallback);
   /**
    * Called when the decoder is no longer needed. Any more calls to decode will not be made.
    */
-  @CalledByNative VideoCodecStatus release();
+  @CalledByNative("") VideoCodecStatus release();
   /**
    * Request the decoder to decode a frame.
    */
-  @CalledByNative VideoCodecStatus decode(EncodedImage frame, DecodeInfo info);
+  @CalledByNative("") VideoCodecStatus decode(EncodedImage frame, DecodeInfo info);
   /**
    * The decoder should return true if it prefers late decoding. That is, it can not decode
    * infinite number of frames before the decoded frame is consumed.
    */
-  @CalledByNative boolean getPrefersLateDecoding();
+  @CalledByNative("") boolean getPrefersLateDecoding();
   /**
    * Should return a descriptive name for the implementation. Gets called once and cached. May be
    * called from arbitrary thread.
    */
-  @CalledByNative String getImplementationName();
+  @CalledByNative("") String getImplementationName();
 }
