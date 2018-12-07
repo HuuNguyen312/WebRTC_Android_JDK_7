@@ -920,7 +920,7 @@ public class PeerConnection {
    *           - The peer connection is closed.
    */
   public RtpSender addTrack(MediaStreamTrack track) {
-    return addTrack(track, Collections.emptyList());
+    return addTrack(track, new ArrayList<String>());
   }
 
   public RtpSender addTrack(MediaStreamTrack track, List<String> streamIds) {

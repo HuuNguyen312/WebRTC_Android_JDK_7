@@ -76,7 +76,7 @@ public class RtpTransceiver {
     }
 
     public RtpTransceiverInit(RtpTransceiverDirection direction) {
-      this(direction, Collections.emptyList());
+      this(direction, Collections.<String>emptyList());
     }
 
     public RtpTransceiverInit(RtpTransceiverDirection direction, List<String> streamIds) {

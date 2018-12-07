@@ -50,7 +50,12 @@ public class AsyncHttpURLConnection {
   }
 
   public void send() {
-    new Thread(this ::sendHttpMessage).start();
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        sendHttpMessage();
+      }
+    }).start();
   }
 
   private void sendHttpMessage() {

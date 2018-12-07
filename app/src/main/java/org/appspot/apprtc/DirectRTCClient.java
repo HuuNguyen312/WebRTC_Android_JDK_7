@@ -235,7 +235,7 @@ public class DirectRTCClient implements AppRTCClient, TCPChannelClient.TCPChanne
 
       SignalingParameters parameters = new SignalingParameters(
           // Ice servers are not needed for direct connections.
-          new ArrayList<>(),
+          new ArrayList<PeerConnection.IceServer>(),
           isServer, // Server side acts as the initiator on direct connections.
           null, // clientId
           null, // wssUrl
@@ -271,7 +271,7 @@ public class DirectRTCClient implements AppRTCClient, TCPChannelClient.TCPChanne
 
         SignalingParameters parameters = new SignalingParameters(
             // Ice servers are not needed for direct connections.
-            new ArrayList<>(),
+            new ArrayList<PeerConnection.IceServer>(),
             false, // This code will only be run on the client side. So, we are not the initiator.
             null, // clientId
             null, // wssUrl

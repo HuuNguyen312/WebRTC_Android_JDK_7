@@ -115,7 +115,7 @@ public class RecordedAudioToFileController
 
   // Called when new audio samples are ready.
   @Override
-  public void onWebRtcAudioRecordSamplesReady(JavaAudioDeviceModule.AudioSamples samples) {
+  public void onWebRtcAudioRecordSamplesReady(final JavaAudioDeviceModule.AudioSamples samples) {
     // The native audio layer on Android should use 16-bit PCM format.
     if (samples.getAudioFormat() != AudioFormat.ENCODING_PCM_16BIT) {
       Log.e(TAG, "Invalid audio format");
@@ -134,18 +134,21 @@ public class RecordedAudioToFileController
       }
     }
     // Append the recorded 16-bit audio samples to the open output file.
-    executor.execute(() -> {
-      if (rawAudioFileOutputStream != null) {
-        try {
-          // Set a limit on max file size. 58348800 bytes corresponds to
-          // approximately 10 minutes of recording in mono at 48kHz.
-          if (fileSizeInBytes < MAX_FILE_SIZE_IN_BYTES) {
-            // Writes samples.getData().length bytes to output stream.
-            rawAudioFileOutputStream.write(samples.getData());
-            fileSizeInBytes += samples.getData().length;
+    executor.execute(new Runnable() {
+      @Override
+      public void run() {
+        if (rawAudioFileOutputStream != null) {
+          try {
+            // Set a limit on max file size. 58348800 bytes corresponds to
+            // approximately 10 minutes of recording in mono at 48kHz.
+            if (fileSizeInBytes < MAX_FILE_SIZE_IN_BYTES) {
+              // Writes samples.getData().length bytes to output stream.
+              rawAudioFileOutputStream.write(samples.getData());
+              fileSizeInBytes += samples.getData().length;
+            }
+          } catch (IOException e) {
+            Log.e(TAG, "Failed to write audio to file: " + e.getMessage());
           }
-        } catch (IOException e) {
-          Log.e(TAG, "Failed to write audio to file: " + e.getMessage());
         }
       }
     });

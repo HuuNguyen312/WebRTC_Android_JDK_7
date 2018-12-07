@@ -275,8 +275,8 @@ public class SurfaceViewRenderer extends SurfaceView
     if (rendererEvents != null) {
       rendererEvents.onFrameResolutionChanged(videoWidth_, videoHeight_, rotation_);
     }
-    int rotatedWidth = rotation_ == 0 || rotation_ == 180 ? videoWidth_ : videoHeight_;
-    int rotatedHeight = rotation_ == 0 || rotation_ == 180 ? videoHeight_ : videoWidth_;
+    final int rotatedWidth = rotation_ == 0 || rotation_ == 180 ? videoWidth_ : videoHeight_;
+    final int rotatedHeight = rotation_ == 0 || rotation_ == 180 ? videoHeight_ : videoWidth_;
     // run immediately if possible for ui thread tests
     postOrRun(new Runnable() {
       @Override

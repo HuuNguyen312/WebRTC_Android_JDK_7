@@ -80,12 +80,12 @@ public class MediaCodecVideoDecoder {
 
       if (isVp8HwSupported()) {
         Logging.d(TAG, "VP8 HW Decoder supported.");
-        codecs.add(new VideoCodecInfo("VP8", new HashMap<>()));
+        codecs.add(new VideoCodecInfo("VP8", new HashMap<String, String>()));
       }
 
       if (isVp9HwSupported()) {
         Logging.d(TAG, "VP9 HW Decoder supported.");
-        codecs.add(new VideoCodecInfo("VP9", new HashMap<>()));
+        codecs.add(new VideoCodecInfo("VP9", new HashMap<String, String>()));
       }
 
       if (isH264HighProfileHwSupported()) {
@@ -116,7 +116,7 @@ public class MediaCodecVideoDecoder {
 
     @Nullable
     @Override
-    public VideoDecoder createDecoder(VideoCodecInfo codec) {
+    public VideoDecoder createDecoder(final VideoCodecInfo codec) {
       if (!isCodecSupported(supportedHardwareCodecs, codec)) {
         Logging.d(TAG, "No HW video decoder for codec " + codec.name);
         return null;

@@ -184,10 +184,15 @@ public class AppRTCAudioManager {
     // Tablet devices (e.g. Nexus 7) does not support proximity sensors.
     // Note that, the sensor will not be active until start() has been called.
     proximitySensor = AppRTCProximitySensor.create(context,
-        // This method will be called each time a state change is detected.
-        // Example: user holds his hand over the device (closer than ~5 cm),
-        // or removes his hand from the device.
-        this ::onProximitySensorChangedState);
+            // This method will be called each time a state change is detected.
+            // Example: user holds his hand over the device (closer than ~5 cm),
+            // or removes his hand from the device.
+            new Runnable() {
+              @Override
+              public void run() {
+                onProximitySensorChangedState();
+              }
+            });
 
     Log.d(TAG, "defaultAudioDevice: " + defaultAudioDevice);
     AppRTCUtils.logDeviceInfo(TAG);

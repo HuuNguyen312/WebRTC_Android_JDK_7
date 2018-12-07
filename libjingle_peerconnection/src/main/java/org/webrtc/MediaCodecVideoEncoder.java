@@ -82,12 +82,12 @@ public class MediaCodecVideoEncoder {
 
       if (isVp8HwSupported()) {
         Logging.d(TAG, "VP8 HW Encoder supported.");
-        codecs.add(new VideoCodecInfo("VP8", new HashMap<>()));
+        codecs.add(new VideoCodecInfo("VP8", new HashMap<String, String>()));
       }
 
       if (isVp9HwSupported()) {
         Logging.d(TAG, "VP9 HW Encoder supported.");
-        codecs.add(new VideoCodecInfo("VP9", new HashMap<>()));
+        codecs.add(new VideoCodecInfo("VP9", new HashMap<String, String>()));
       }
 
       // Check if high profile is supported by decoder. If yes, encoder can always
@@ -114,7 +114,7 @@ public class MediaCodecVideoEncoder {
 
     @Nullable
     @Override
-    public VideoEncoder createEncoder(VideoCodecInfo info) {
+    public VideoEncoder createEncoder(final VideoCodecInfo info) {
       if (!isCodecSupported(supportedHardwareCodecs, info)) {
         Logging.d(TAG, "No HW video encoder for codec " + info.name);
         return null;
