@@ -4,7 +4,7 @@ def compileNativeCode = "true" == rootProject.findProperty("compile_native_code"
 
 android {
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
-    buildToolsVersion rootProject.ext.androidBuildToolsVersion
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
@@ -19,7 +19,7 @@ android {
                             "-DWEBRTC_REPO=${rootProject.property("webrtc_repo")}",
                             "-DWEBRTC_BUILD_DIR=${rootProject.property("webrtc_build_dir")}"
                     cppFlags '-std=c++14'
-                    abiFilters 'arm64-v8a'//, 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86'
+                    abiFilters 'arm64-v8a','x86'//, 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86'
                     //targets "protobuf_lite", "absl_base", "absl_optional", "absl_variant", "yuv", "ssl", "crypto", "event", "json", "srtp", "vpx", "opus", "rnnoise", "usrsctp"
                 }
             }
