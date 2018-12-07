@@ -69,9 +69,7 @@ public interface VideoDecoder {
    * UnsupportedOperationException.
    */
   @CalledByNative("")
-  default long createNativeVideoDecoder() {
-    return 0;
-  }
+  long createNativeVideoDecoder();
 
   /**
    * Initializes the decoding process with specified settings. Will be called on the decoding thread

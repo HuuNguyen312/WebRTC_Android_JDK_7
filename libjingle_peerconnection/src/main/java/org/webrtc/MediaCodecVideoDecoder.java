@@ -110,6 +110,12 @@ public class MediaCodecVideoDecoder {
 
     @Nullable
     @Override
+    public VideoDecoder createDecoder(String codecType) {
+      return null;
+    }
+
+    @Nullable
+    @Override
     public VideoDecoder createDecoder(VideoCodecInfo codec) {
       if (!isCodecSupported(supportedHardwareCodecs, codec)) {
         Logging.d(TAG, "No HW video decoder for codec " + codec.name);

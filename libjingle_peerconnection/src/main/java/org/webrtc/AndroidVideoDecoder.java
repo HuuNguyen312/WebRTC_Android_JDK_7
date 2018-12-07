@@ -146,6 +146,11 @@ class AndroidVideoDecoder implements VideoDecoder, VideoSink {
   }
 
   @Override
+  public long createNativeVideoDecoder() {
+    return 0;
+  }
+
+  @Override
   public VideoCodecStatus initDecode(Settings settings, Callback callback) {
     this.decoderThreadChecker = new ThreadChecker();
 

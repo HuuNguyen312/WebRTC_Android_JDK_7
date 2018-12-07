@@ -35,4 +35,14 @@ public class Camera2Capturer extends CameraCapturer {
     Camera2Session.create(createSessionCallback, events, applicationContext, cameraManager,
         surfaceTextureHelper, cameraName, width, height, framerate);
   }
+
+  @Override
+  public void addMediaRecorderToCamera() {
+
+  }
+
+  @Override
+  public void removeMediaRecorderFromCamera(MediaRecorderHandler resultHandler) {
+
+  }
 }

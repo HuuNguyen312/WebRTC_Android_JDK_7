@@ -183,17 +183,13 @@ public interface VideoEncoder {
    * UnsupportedOperationException.
    */
   @CalledByNative("")
-  default long createNativeVideoEncoder() {
-    return 0;
-  }
+  long createNativeVideoEncoder();
 
   /**
    * Returns true if the encoder is backed by hardware.
    */
   @CalledByNative("")
-  default boolean isHardwareEncoder() {
-    return true;
-  }
+  boolean isHardwareEncoder();
 
   /**
    * Initializes the encoding process. Call before any calls to encode.
