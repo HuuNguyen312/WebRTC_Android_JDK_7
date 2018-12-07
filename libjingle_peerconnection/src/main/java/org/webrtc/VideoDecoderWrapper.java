@@ -18,8 +18,12 @@ import org.webrtc.VideoDecoder;
 class VideoDecoderWrapper {
   @CalledByNative("")
   static VideoDecoder.Callback createDecoderCallback(final long nativeDecoder) {
-    return (VideoFrame frame, Integer decodeTimeMs,
-               Integer qp) -> nativeOnDecodedFrame(nativeDecoder, frame, decodeTimeMs, qp);
+    return new VideoDecoder.Callback() {
+      @Override
+      public void onDecodedFrame(VideoFrame frame, Integer decodeTimeMs, Integer qp) {
+        nativeOnDecodedFrame(nativeDecoder, frame, decodeTimeMs, qp);
+      }
+    };
   }
 
   private static native void nativeOnDecodedFrame(

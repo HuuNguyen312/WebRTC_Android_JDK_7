@@ -38,10 +38,14 @@ class VideoEncoderWrapper {
 
   @CalledByNative("")
   static VideoEncoder.Callback createEncoderCallback(final long nativeEncoder) {
-    return (EncodedImage frame, VideoEncoder.CodecSpecificInfo info)
-               -> nativeOnEncodedFrame(nativeEncoder, frame.buffer, frame.encodedWidth,
-                   frame.encodedHeight, frame.captureTimeNs, frame.frameType.getNative(),
-                   frame.rotation, frame.completeFrame, frame.qp);
+    return new VideoEncoder.Callback() {
+      @Override
+      public void onEncodedFrame(EncodedImage frame, VideoEncoder.CodecSpecificInfo info) {
+        nativeOnEncodedFrame(nativeEncoder, frame.buffer, frame.encodedWidth,
+                frame.encodedHeight, frame.captureTimeNs, frame.frameType.getNative(),
+                frame.rotation, frame.completeFrame, frame.qp);
+      }
+    };
   }
 
   private static native void nativeOnEncodedFrame(long nativeVideoEncoderWrapper, ByteBuffer buffer,

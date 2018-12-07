@@ -14,6 +14,8 @@ import android.graphics.Matrix;
 import javax.annotation.Nullable;
 import android.os.Handler;
 
+import java.util.concurrent.Callable;
+
 /**
  * Android texture buffer that glues together the necessary information together with a generic
  * release callback. ToI420() is implemented by providing a Handler and a YuvConverter.
@@ -91,7 +93,12 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
   @Override
   public VideoFrame.I420Buffer toI420() {
     return ThreadUtils.invokeAtFrontUninterruptibly(
-        toI420Handler, () -> yuvConverter.convert(this));
+            toI420Handler, new Callable<VideoFrame.I420Buffer>() {
+              @Override
+              public VideoFrame.I420Buffer call() throws Exception {
+                return yuvConverter.convert(TextureBufferImpl.this);
+              }
+            });
   }
 
   @Override
@@ -153,6 +160,11 @@ public class TextureBufferImpl implements VideoFrame.TextureBuffer {
     newMatrix.preConcat(transformMatrix);
     retain();
     return new TextureBufferImpl(unscaledWidth, unscaledHeight, scaledWidth, scaledHeight, type, id,
-        newMatrix, toI420Handler, yuvConverter, this ::release);
+            newMatrix, toI420Handler, yuvConverter, new Runnable() {
+      @Override
+      public void run() {
+        release();
+      }
+    });
   }
 }

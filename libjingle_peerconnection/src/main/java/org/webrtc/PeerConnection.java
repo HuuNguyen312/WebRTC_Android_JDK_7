@@ -114,13 +114,12 @@ public class PeerConnection {
      * will be receiving media from a remote endpoint. This is only called if UNIFIED_PLAN
      * semantics are specified. The transceiver will be disposed automatically.
      */
-    @CalledByNative("Observer") default void onTrack(RtpTransceiver transceiver){};
+    @CalledByNative("Observer")  void onTrack(RtpTransceiver transceiver);
   }
 
   /** Java version of PeerConnectionInterface.IceServer. */
   public static class IceServer {
-    // List of URIs associated with this server. Valid formats are described
-    // in RFC7064 and RFC7065, and more may be added in the future. The "host"
+    // List of URIs associated with this server. Valid forma``future. The "host"
     // part of the URI may contain either an IP address or a hostname.
     @Deprecated public final String uri;
     public final List<String> urls;

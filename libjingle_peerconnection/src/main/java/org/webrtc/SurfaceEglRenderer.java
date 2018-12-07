@@ -115,7 +115,12 @@ public class SurfaceEglRenderer extends EglRenderer implements SurfaceHolder.Cal
   public void surfaceDestroyed(SurfaceHolder holder) {
     ThreadUtils.checkIsOnMainThread();
     final CountDownLatch completionLatch = new CountDownLatch(1);
-    releaseEglSurface(completionLatch::countDown);
+    releaseEglSurface(new Runnable() {
+      @Override
+      public void run() {
+        completionLatch.countDown();
+      }
+    });
     ThreadUtils.awaitUninterruptibly(completionLatch);
   }
 
