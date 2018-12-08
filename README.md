@@ -16,3 +16,18 @@ Note:
 + use the same version of Android SDK and NDK;
 + recreate `protoc` after updating webrtc repo, build WebRTC with ninja would create it;
 + delete `webrtc_build_dir` after updating webrtc repo;
+
+## Use Gralde
+
+```gradle
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+
+dependencies {
+  implementation 'com.github.ngochuu90:WebRTC_Android_JDK_7:0.1'
+}
+```
