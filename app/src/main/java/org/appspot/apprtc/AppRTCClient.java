@@ -29,7 +29,7 @@ public interface AppRTCClient {
     public final boolean loopback;
     public final String urlParameters;
     public RoomConnectionParameters(
-        String roomUrl, String roomId, boolean loopback, String urlParameters) {
+            String roomUrl, String roomId, boolean loopback, String urlParameters) {
       this.roomUrl = roomUrl;
       this.roomId = roomId;
       this.loopback = loopback;
@@ -85,8 +85,8 @@ public interface AppRTCClient {
     public final List<IceCandidate> iceCandidates;
 
     public SignalingParameters(List<PeerConnection.IceServer> iceServers, boolean initiator,
-        String clientId, String wssUrl, String wssPostUrl, SessionDescription offerSdp,
-        List<IceCandidate> iceCandidates) {
+                               String clientId, String wssUrl, String wssPostUrl, SessionDescription offerSdp,
+                               List<IceCandidate> iceCandidates) {
       this.iceServers = iceServers;
       this.initiator = initiator;
       this.clientId = clientId;

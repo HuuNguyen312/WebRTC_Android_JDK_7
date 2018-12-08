@@ -8,7 +8,7 @@
  *  be found in the AUTHORS file in the root of the source tree.
  */
 
-package org.appspot.apprtc;
+package org.appspot.apprtc.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -19,6 +19,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.appspot.apprtc.CpuMonitor;
+import org.appspot.apprtc.PeerConnectionClient;
+import org.appspot.apprtc.R;
 import org.webrtc.StatsReport;
 
 import java.util.HashMap;
@@ -41,7 +44,7 @@ public class HudFragment extends Fragment {
 
   @Override
   public View onCreateView(
-      LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+          LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View controlView = inflater.inflate(R.layout.fragment_hud, container, false);
 
     // Create UI controls.

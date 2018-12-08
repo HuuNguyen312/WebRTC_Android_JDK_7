@@ -8,7 +8,7 @@
  *  be found in the AUTHORS file in the root of the source tree.
  */
 
-package org.appspot.apprtc;
+package org.appspot.apprtc.ui;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -31,18 +31,21 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Toast;
-import java.io.IOException;
-import java.lang.RuntimeException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import javax.annotation.Nullable;
+
+import org.appspot.apprtc.AppRTCAudioManager;
 import org.appspot.apprtc.AppRTCAudioManager.AudioDevice;
 import org.appspot.apprtc.AppRTCAudioManager.AudioManagerEvents;
+import org.appspot.apprtc.AppRTCClient;
 import org.appspot.apprtc.AppRTCClient.RoomConnectionParameters;
 import org.appspot.apprtc.AppRTCClient.SignalingParameters;
+import org.appspot.apprtc.CpuMonitor;
+import org.appspot.apprtc.DirectRTCClient;
+import org.appspot.apprtc.PeerConnectionClient;
 import org.appspot.apprtc.PeerConnectionClient.DataChannelParameters;
 import org.appspot.apprtc.PeerConnectionClient.PeerConnectionParameters;
+import org.appspot.apprtc.R;
+import org.appspot.apprtc.UnhandledExceptionHandler;
+import org.appspot.apprtc.WebSocketRTCClient;
 import org.webrtc.Camera1Enumerator;
 import org.webrtc.Camera2Enumerator;
 import org.webrtc.CameraEnumerator;
@@ -61,6 +64,13 @@ import org.webrtc.VideoCapturer;
 import org.webrtc.VideoFileRenderer;
 import org.webrtc.VideoFrame;
 import org.webrtc.VideoSink;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Nullable;
 
 /**
  * Activity for peer connection call setup, call waiting
@@ -153,12 +163,14 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
 
   private final ProxyVideoSink remoteProxyRenderer = new ProxyVideoSink();
   private final ProxyVideoSink localProxyVideoSink = new ProxyVideoSink();
-  @Nullable private PeerConnectionClient peerConnectionClient;
+  @Nullable
+  private PeerConnectionClient peerConnectionClient = null;
   @Nullable
   private AppRTCClient appRtcClient;
   @Nullable
   private SignalingParameters signalingParameters;
-  @Nullable private AppRTCAudioManager audioManager;
+  @Nullable
+  private AppRTCAudioManager audioManager = null;
   @Nullable
   private SurfaceViewRenderer pipRenderer;
   @Nullable
@@ -175,9 +187,9 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
   private boolean iceConnected;
   private boolean isError;
   private boolean callControlFragmentVisible = true;
-  private long callStartedTimeMs;
+  private long callStartedTimeMs = 0;
   private boolean micEnabled = true;
-  private boolean screencaptureEnabled;
+  private boolean screencaptureEnabled = false;
   private static Intent mediaProjectionPermissionResultData;
   private static int mediaProjectionPermissionResultCode;
   // True if local view is in the fullscreen renderer.
@@ -274,7 +286,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
 
     Uri roomUri = intent.getData();
     if (roomUri == null) {
-      logAndToast(getString(R.string.missing_url));
+      logAndToast(getString(org.appspot.apprtc.R.string.missing_url));
       Log.e(TAG, "Didn't get any URL in intent!");
       setResult(RESULT_CANCELED);
       finish();
@@ -285,7 +297,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     String roomId = intent.getStringExtra(EXTRA_ROOMID);
     Log.d(TAG, "Room ID: " + roomId);
     if (roomId == null || roomId.length() == 0) {
-      logAndToast(getString(R.string.missing_url));
+      logAndToast(getString(org.appspot.apprtc.R.string.missing_url));
       Log.e(TAG, "Incorrect room ID in intent!");
       setResult(RESULT_CANCELED);
       finish();
@@ -432,7 +444,8 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     return getIntent().getBooleanExtra(EXTRA_CAPTURETOTEXTURE_ENABLED, false);
   }
 
-  private @Nullable VideoCapturer createCameraCapturer(CameraEnumerator enumerator) {
+  private @Nullable
+  VideoCapturer createCameraCapturer(CameraEnumerator enumerator) {
     final String[] deviceNames = enumerator.getDeviceNames();
 
     // First, try to find front facing camera
@@ -465,7 +478,8 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
   }
 
   @TargetApi(21)
-  private @Nullable VideoCapturer createScreenCapturer() {
+  private @Nullable
+  VideoCapturer createScreenCapturer() {
     if (mediaProjectionPermissionResultCode != Activity.RESULT_OK) {
       reportError("User didn't give permission to capture the screen.");
       return null;
@@ -579,7 +593,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     callStartedTimeMs = System.currentTimeMillis();
 
     // Start room connection.
-    logAndToast(getString(R.string.connecting_to, roomConnectionParameters.roomUrl));
+    logAndToast(getString(org.appspot.apprtc.R.string.connecting_to, roomConnectionParameters.roomUrl));
     appRtcClient.connectToRoom(roomConnectionParameters);
 
     // Create and audio manager that will take care of audio routing,
@@ -593,7 +607,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
       // devices has changed.
       @Override
       public void onAudioDeviceChanged(
-          AudioDevice audioDevice, Set<AudioDevice> availableAudioDevices) {
+              AudioDevice audioDevice, Set<AudioDevice> availableAudioDevices) {
         onAudioManagerDevicesChanged(audioDevice, availableAudioDevices);
       }
     });
@@ -615,7 +629,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
   // This method is called when the audio manager reports audio device change,
   // e.g. from wired headset to speakerphone.
   private void onAudioManagerDevicesChanged(
-      final AudioDevice device, final Set<AudioDevice> availableDevices) {
+          final AudioDevice device, final Set<AudioDevice> availableDevices) {
     Log.d(TAG, "onAudioManagerDevicesChanged: " + availableDevices + ", "
             + "selected: " + device);
     // TODO(henrika): add callback handler.
@@ -664,10 +678,10 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
       disconnect();
     } else {
       new AlertDialog.Builder(this)
-          .setTitle(getText(R.string.channel_error_title))
+          .setTitle(getText(org.appspot.apprtc.R.string.channel_error_title))
           .setMessage(errorMessage)
           .setCancelable(false)
-          .setNeutralButton(R.string.ok,
+          .setNeutralButton(org.appspot.apprtc.R.string.ok,
               new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
@@ -702,7 +716,8 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     });
   }
 
-  private @Nullable VideoCapturer createVideoCapturer() {
+  private @Nullable
+  VideoCapturer createVideoCapturer() {
     final VideoCapturer videoCapturer;
     String videoFileAsCamera = getIntent().getStringExtra(EXTRA_VIDEO_FILE_AS_CAMERA);
     if (videoFileAsCamera != null) {
@@ -716,7 +731,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
       return createScreenCapturer();
     } else if (useCamera2()) {
       if (!captureToTexture()) {
-        reportError(getString(R.string.camera2_texture_only_error));
+        reportError(getString(org.appspot.apprtc.R.string.camera2_texture_only_error));
         return null;
       }
 

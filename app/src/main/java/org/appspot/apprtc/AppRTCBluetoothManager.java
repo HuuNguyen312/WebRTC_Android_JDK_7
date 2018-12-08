@@ -24,12 +24,15 @@ import android.media.AudioManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
-import javax.annotation.Nullable;
 import android.util.Log;
-import java.util.List;
-import java.util.Set;
+
 import org.appspot.apprtc.util.AppRTCUtils;
 import org.webrtc.ThreadUtils;
+
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Nullable;
 
 /**
  * AppRTCProximitySensor manages functions related to Bluetoth devices in the
@@ -409,7 +412,7 @@ public class AppRTCBluetoothManager {
   }
 
   protected boolean getBluetoothProfileProxy(
-      Context context, BluetoothProfile.ServiceListener listener, int profile) {
+          Context context, BluetoothProfile.ServiceListener listener, int profile) {
     return bluetoothAdapter.getProfileProxy(context, listener, profile);
   }
 

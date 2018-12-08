@@ -18,10 +18,10 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.SystemClock;
 import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -31,6 +31,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 import javax.annotation.Nullable;
 
 /**
@@ -75,7 +76,7 @@ import javax.annotation.Nullable;
  *      jumping up and back down we might create faulty CPU load readings.
  */
 @TargetApi(Build.VERSION_CODES.KITKAT)
-class CpuMonitor {
+public class CpuMonitor {
   private static final String TAG = "CpuMonitor";
   private static final int MOVING_AVERAGE_SAMPLES = 5;
 
@@ -230,7 +231,7 @@ class CpuMonitor {
 
     executor = Executors.newSingleThreadScheduledExecutor();
     @SuppressWarnings("unused") // Prevent downstream linter warnings.
-    Future<?> possiblyIgnoredError = executor.scheduleAtFixedRate(new Runnable() {
+            Future<?> possiblyIgnoredError = executor.scheduleAtFixedRate(new Runnable() {
       @Override
       public void run() {
         cpuUtilizationTask();

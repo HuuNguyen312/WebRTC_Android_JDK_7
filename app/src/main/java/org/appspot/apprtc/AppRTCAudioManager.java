@@ -21,12 +21,15 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import org.appspot.apprtc.util.AppRTCUtils;
+import org.webrtc.ThreadUtils;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.annotation.Nullable;
-import org.appspot.apprtc.util.AppRTCUtils;
-import org.webrtc.ThreadUtils;
 
 /**
  * AppRTCAudioManager manages all audio related parts of the AppRTC demo.
@@ -54,7 +57,7 @@ public class AppRTCAudioManager {
   public interface AudioManagerEvents {
     // Callback fired once audio device is changed or list of available audio devices changed.
     void onAudioDeviceChanged(
-        AudioDevice selectedAudioDevice, Set<AudioDevice> availableAudioDevices);
+            AudioDevice selectedAudioDevice, Set<AudioDevice> availableAudioDevices);
   }
 
   private final Context apprtcContext;
@@ -65,9 +68,9 @@ public class AppRTCAudioManager {
   private AudioManagerEvents audioManagerEvents;
   private AudioManagerState amState;
   private int savedAudioMode = AudioManager.MODE_INVALID;
-  private boolean savedIsSpeakerPhoneOn;
-  private boolean savedIsMicrophoneMute;
-  private boolean hasWiredHeadset;
+  private boolean savedIsSpeakerPhoneOn = false;
+  private boolean savedIsMicrophoneMute = false;
+  private boolean hasWiredHeadset = false;
 
   // Default audio device; speaker phone for video calls or earpiece for audio
   // only calls.
@@ -93,7 +96,8 @@ public class AppRTCAudioManager {
   // relative to the view screen of a device and can therefore be used to
   // assist device switching (close to ear <=> use headset earpiece if
   // available, far from ear <=> use speaker phone).
-  @Nullable private AppRTCProximitySensor proximitySensor;
+  @Nullable
+  private AppRTCProximitySensor proximitySensor = null;
 
   // Handles all tasks related to Bluetooth headset devices.
   private final AppRTCBluetoothManager bluetoothManager;
@@ -120,16 +124,16 @@ public class AppRTCAudioManager {
 
     // The proximity sensor should only be activated when there are exactly two
     // available audio devices.
-    if (audioDevices.size() == 2 && audioDevices.contains(AppRTCAudioManager.AudioDevice.EARPIECE)
-        && audioDevices.contains(AppRTCAudioManager.AudioDevice.SPEAKER_PHONE)) {
+    if (audioDevices.size() == 2 && audioDevices.contains(AudioDevice.EARPIECE)
+        && audioDevices.contains(AudioDevice.SPEAKER_PHONE)) {
       if (proximitySensor.sensorReportsNearState()) {
         // Sensor reports that a "handset is being held up to a person's ear",
         // or "something is covering the light sensor".
-        setAudioDeviceInternal(AppRTCAudioManager.AudioDevice.EARPIECE);
+        setAudioDeviceInternal(AudioDevice.EARPIECE);
       } else {
         // Sensor reports that a "handset is removed from a person's ear", or
         // "the light sensor is no longer covered".
-        setAudioDeviceInternal(AppRTCAudioManager.AudioDevice.SPEAKER_PHONE);
+        setAudioDeviceInternal(AudioDevice.SPEAKER_PHONE);
       }
     }
   }
@@ -157,7 +161,7 @@ public class AppRTCAudioManager {
   }
 
   /** Construction. */
-  static AppRTCAudioManager create(Context context) {
+  public static AppRTCAudioManager create(Context context) {
     return new AppRTCAudioManager(context);
   }
 

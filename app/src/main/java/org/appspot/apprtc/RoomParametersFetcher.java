@@ -11,13 +11,7 @@
 package org.appspot.apprtc;
 
 import android.util.Log;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.List;
+
 import org.appspot.apprtc.AppRTCClient.SignalingParameters;
 import org.appspot.apprtc.util.AsyncHttpURLConnection;
 import org.appspot.apprtc.util.AsyncHttpURLConnection.AsyncHttpEvents;
@@ -27,6 +21,14 @@ import org.json.JSONObject;
 import org.webrtc.IceCandidate;
 import org.webrtc.PeerConnection;
 import org.webrtc.SessionDescription;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * AsyncTask that converts an AppRTC room URL into the set of signaling
@@ -56,7 +58,7 @@ public class RoomParametersFetcher {
   }
 
   public RoomParametersFetcher(
-      String roomUrl, String roomMessage, final RoomParametersFetcherEvents events) {
+          String roomUrl, String roomMessage, final RoomParametersFetcherEvents events) {
     this.roomUrl = roomUrl;
     this.roomMessage = roomMessage;
     this.events = events;
@@ -164,8 +166,7 @@ public class RoomParametersFetcher {
     List<PeerConnection.IceServer> turnServers = new ArrayList<>();
     Log.d(TAG, "Request TURN from: " + url);
     HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-    // setDoOutput will cause ICE request 404, maybe the problem of ICE server
-    //connection.setDoOutput(true);
+    connection.setDoOutput(true);
     connection.setRequestProperty("REFERER", "https://appr.tc");
     connection.setConnectTimeout(TURN_HTTP_TIMEOUT_MS);
     connection.setReadTimeout(TURN_HTTP_TIMEOUT_MS);

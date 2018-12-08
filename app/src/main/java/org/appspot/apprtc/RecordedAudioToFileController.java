@@ -13,17 +13,20 @@ package org.appspot.apprtc;
 import android.media.AudioFormat;
 import android.os.Environment;
 import android.util.Log;
+
+import org.webrtc.audio.JavaAudioDeviceModule;
+import org.webrtc.audio.JavaAudioDeviceModule.SamplesReadyCallback;
+import org.webrtc.voiceengine.WebRtcAudioRecord;
+import org.webrtc.voiceengine.WebRtcAudioRecord.WebRtcAudioRecordSamplesReadyCallback;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.ExecutorService;
+
 import javax.annotation.Nullable;
-import org.webrtc.audio.JavaAudioDeviceModule;
-import org.webrtc.audio.JavaAudioDeviceModule.SamplesReadyCallback;
-import org.webrtc.voiceengine.WebRtcAudioRecord;
-import org.webrtc.voiceengine.WebRtcAudioRecord.WebRtcAudioRecordSamplesReadyCallback;
 
 /**
  * Implements the AudioRecordSamplesReadyCallback interface and writes
@@ -36,9 +39,10 @@ public class RecordedAudioToFileController
 
   private final Object lock = new Object();
   private final ExecutorService executor;
-  @Nullable private OutputStream rawAudioFileOutputStream;
+  @Nullable
+  private OutputStream rawAudioFileOutputStream = null;
   private boolean isRunning;
-  private long fileSizeInBytes;
+  private long fileSizeInBytes = 0;
 
   public RecordedAudioToFileController(ExecutorService executor) {
     Log.d(TAG, "ctor");

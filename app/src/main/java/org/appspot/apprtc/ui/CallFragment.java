@@ -8,7 +8,7 @@
  *  be found in the AUTHORS file in the root of the source tree.
  */
 
-package org.appspot.apprtc;
+package org.appspot.apprtc.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import org.appspot.apprtc.R;
 import org.webrtc.RendererCommon.ScalingType;
 
 /**
@@ -49,7 +50,7 @@ public class CallFragment extends Fragment {
 
   @Override
   public View onCreateView(
-      LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+          LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View controlView = inflater.inflate(R.layout.fragment_call, container, false);
 
     // Create UI controls.

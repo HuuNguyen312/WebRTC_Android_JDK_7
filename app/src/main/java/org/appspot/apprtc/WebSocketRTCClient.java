@@ -10,22 +10,22 @@
 
 package org.appspot.apprtc;
 
-import javax.annotation.Nullable;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.util.Log;
+
 import org.appspot.apprtc.RoomParametersFetcher.RoomParametersFetcherEvents;
 import org.appspot.apprtc.WebSocketChannelClient.WebSocketChannelEvents;
 import org.appspot.apprtc.WebSocketChannelClient.WebSocketConnectionState;
 import org.appspot.apprtc.util.AsyncHttpURLConnection;
 import org.appspot.apprtc.util.AsyncHttpURLConnection.AsyncHttpEvents;
-
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.webrtc.IceCandidate;
 import org.webrtc.SessionDescription;
+
+import javax.annotation.Nullable;
 
 /**
  * Negotiates signaling for chatting with https://appr.tc "rooms".
@@ -137,13 +137,13 @@ public class WebSocketRTCClient implements AppRTCClient, WebSocketChannelEvents 
   }
 
   private String getMessageUrl(
-      RoomConnectionParameters connectionParameters, SignalingParameters signalingParameters) {
+          RoomConnectionParameters connectionParameters, SignalingParameters signalingParameters) {
     return connectionParameters.roomUrl + "/" + ROOM_MESSAGE + "/" + connectionParameters.roomId
         + "/" + signalingParameters.clientId + getQueryString(connectionParameters);
   }
 
   private String getLeaveUrl(
-      RoomConnectionParameters connectionParameters, SignalingParameters signalingParameters) {
+          RoomConnectionParameters connectionParameters, SignalingParameters signalingParameters) {
     return connectionParameters.roomUrl + "/" + ROOM_LEAVE + "/" + connectionParameters.roomId + "/"
         + signalingParameters.clientId + getQueryString(connectionParameters);
   }
@@ -381,7 +381,7 @@ public class WebSocketRTCClient implements AppRTCClient, WebSocketChannelEvents 
 
   // Send SDP or ICE candidate to a room server.
   private void sendPostMessage(
-      final MessageType messageType, final String url, @Nullable final String message) {
+          final MessageType messageType, final String url, @Nullable final String message) {
     String logInfo = url;
     if (message != null) {
       logInfo += ". Message: " + message;
