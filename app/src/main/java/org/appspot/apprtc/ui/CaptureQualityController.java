@@ -8,15 +8,17 @@
  *  be found in the AUTHORS file in the root of the source tree.
  */
 
-package org.appspot.apprtc;
+package org.appspot.apprtc.ui;
 
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import org.webrtc.CameraEnumerationAndroid.CaptureFormat;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import org.webrtc.CameraEnumerationAndroid.CaptureFormat;
 
 /**
  * Control capture format based on a seekbar listener.
@@ -30,13 +32,13 @@ public class CaptureQualityController implements SeekBar.OnSeekBarChangeListener
   private static final int FRAMERATE_THRESHOLD = 15;
   private TextView captureFormatText;
   private CallFragment.OnCallEvents callEvents;
-  private int width;
-  private int height;
-  private int framerate;
-  private double targetBandwidth;
+  private int width = 0;
+  private int height = 0;
+  private int framerate = 0;
+  private double targetBandwidth = 0;
 
   public CaptureQualityController(
-      TextView captureFormatText, CallFragment.OnCallEvents callEvents) {
+          TextView captureFormatText, CallFragment.OnCallEvents callEvents) {
     this.captureFormatText = captureFormatText;
     this.callEvents = callEvents;
   }
@@ -64,12 +66,12 @@ public class CaptureQualityController implements SeekBar.OnSeekBarChangeListener
       width = 0;
       height = 0;
       framerate = 0;
-      captureFormatText.setText(R.string.muted);
+      captureFormatText.setText(org.appspot.apprtc.R.string.muted);
       return;
     }
 
     // Extract max bandwidth (in millipixels / second).
-    long maxCaptureBandwidth = java.lang.Long.MIN_VALUE;
+    long maxCaptureBandwidth = Long.MIN_VALUE;
     for (CaptureFormat format : formats) {
       maxCaptureBandwidth =
           Math.max(maxCaptureBandwidth, (long) format.width * format.height * format.framerate.max);
@@ -89,7 +91,7 @@ public class CaptureQualityController implements SeekBar.OnSeekBarChangeListener
     height = bestFormat.height;
     framerate = calculateFramerate(targetBandwidth, bestFormat);
     captureFormatText.setText(
-        String.format(captureFormatText.getContext().getString(R.string.format_description), width,
+        String.format(captureFormatText.getContext().getString(org.appspot.apprtc.R.string.format_description), width,
             height, framerate));
   }
 

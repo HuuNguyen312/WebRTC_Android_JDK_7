@@ -10,7 +10,6 @@
 
 package org.appspot.apprtc;
 
-import javax.annotation.Nullable;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -26,6 +25,8 @@ import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nullable;
+
 /**
  * Implementation of AppRTCClient that uses direct TCP connection as the signaling channel.
  * This eliminates the need for an external server. This class does not support loopback
@@ -36,7 +37,7 @@ public class DirectRTCClient implements AppRTCClient, TCPChannelClient.TCPChanne
   private static final int DEFAULT_PORT = 8888;
 
   // Regex pattern used for checking if room id looks like an IP.
-  static final Pattern IP_PATTERN = Pattern.compile("("
+  public static final Pattern IP_PATTERN = Pattern.compile("("
       // IPv4
       + "((\\d+\\.){3}\\d+)|"
       // IPv6

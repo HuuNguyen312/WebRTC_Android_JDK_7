@@ -4,7 +4,6 @@ def compileNativeCode = "true" == rootProject.findProperty("compile_native_code"
 
 android {
     compileSdkVersion rootProject.ext.androidCompileSdkVersion
-    buildToolsVersion '28.0.3'
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
@@ -54,4 +53,14 @@ if (compileNativeCode) {
 dependencies {
     api project(':base_java')
     api project(':audio_device_java')
+}
+task makeJar(type: Copy) {
+    from('build/intermediates/bundles/release/')
+    into('build/outputs/')
+    include('classes.jar')
+    rename ('classes.jar', 'myLib.jar')
+    into('release/') //you can change this directory where you want to copy your .jar
+}
+task clearJar(type: Delete) {
+    delete 'build/libs/myLib.jar'
 }
