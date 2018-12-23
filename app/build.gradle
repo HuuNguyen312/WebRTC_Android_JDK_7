@@ -30,10 +30,8 @@ android {
 }
 
 dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:${rootProject.ext.androidSupportSdkVersion}"
-
-    implementation (name:'autobanh', ext:'jar')
-
-    implementation project(':libjingle_peerconnection')
+    implementation 'com.github.ngochuu90:WebRTC_Android_JDK_7:0.1'
     //implementation 'org.webrtc:google-webrtc:1.0.23995'
 }
