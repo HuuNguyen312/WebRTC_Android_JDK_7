@@ -59,7 +59,7 @@ import org.webrtc.RendererCommon.ScalingType;
 import org.webrtc.ScreenCapturerAndroid;
 import org.webrtc.SessionDescription;
 import org.webrtc.StatsReport;
-import org.webrtc.SurfaceViewRenderer;
+import org.webrtc.TextureViewRenderer;
 import org.webrtc.VideoCapturer;
 import org.webrtc.VideoFileRenderer;
 import org.webrtc.VideoFrame;
@@ -172,9 +172,9 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
   @Nullable
   private AppRTCAudioManager audioManager = null;
   @Nullable
-  private SurfaceViewRenderer pipRenderer;
+  private TextureViewRenderer pipRenderer;
   @Nullable
-  private SurfaceViewRenderer fullscreenRenderer;
+  private TextureViewRenderer fullscreenRenderer;
   @Nullable
   private VideoFileRenderer videoFileRenderer;
   private final List<VideoSink> remoteSinks = new ArrayList<>();
@@ -268,7 +268,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     fullscreenRenderer.init(eglBase.getEglBaseContext(), null);
     fullscreenRenderer.setScalingType(ScalingType.SCALE_ASPECT_FILL);
 
-    pipRenderer.setZOrderMediaOverlay(true);
+//    pipRenderer.setZOrderMediaOverlay(true);
     pipRenderer.setEnableHardwareScaler(true /* enabled */);
     fullscreenRenderer.setEnableHardwareScaler(false /* enabled */);
     // Start with local feed in fullscreen and swap it to the pip when the call is connected.

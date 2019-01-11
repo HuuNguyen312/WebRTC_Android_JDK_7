@@ -320,7 +320,7 @@ public class TextureViewRenderer extends TextureView
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
         ThreadUtils.checkIsOnMainThread();
-        Log.d(TAG, "onSurfaceTextureUpdated");
+        logD("onSurfaceTextureUpdated");
     }
 
     // SurfaceHolder.Callback interface.
