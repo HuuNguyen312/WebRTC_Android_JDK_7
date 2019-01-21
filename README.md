@@ -1,18 +1,19 @@
 
 ## Source code directories
 
-+ https://webrtc.googlesource.com/src/+/master/webrtc/sdk/android/api/org/webrtc
-+ https://webrtc.googlesource.com/src/+/master/webrtc/sdk/android/src/java/org/webrtc
-+ https://webrtc.googlesource.com/src/+/master/webrtc/rtc_base/java/src/org/webrtc
-+ https://webrtc.googlesource.com/src/+/master/webrtc/modules/audio_device/android/java/src/org/webrtc/voiceengine
-+ https://webrtc.googlesource.com/src/+/master/webrtc/examples/androidapp/
++ https://webrtc.googlesource.com/src/+/master/ #25331
 
-## Debug native code in Android Studio
+## Use Gralde
 
-Edit `gradle.properties`, set `compile_native_code=true` and other variables according to your WebRTC checkout location, then enjoy :)
+```gradle
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
 
-Note:
-
-+ use the same version of Android SDK and NDK;
-+ recreate `protoc` after updating webrtc repo, build WebRTC with ninja would create it;
-+ delete `webrtc_build_dir` after updating webrtc repo;
+dependencies {
+  implementation 'com.github.ngochuu90:WebRTC_Android_JDK_7:0.1'
+}
+```
